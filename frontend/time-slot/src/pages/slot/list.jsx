@@ -16,6 +16,8 @@ const SlotList = (props) => {
     getDateData
   } = props;
   console.log("slotList",slotList)
+  let slots=slotList.slots
+  console.log("slots123",slots)
   const[startDatee,setStartDate]=useState('')
   const[endDatee,setEndDate]=useState('')
 
@@ -52,8 +54,8 @@ const SlotList = (props) => {
       <h3>Timeslot</h3>
       {/* <SlotCard/> */}
 
-{slotList&&
- Object.entries(slotList).map((key)=>(
+{slots&& slots!==undefined &&
+ Object.entries(slots).map((key)=>(
    console.log("key",key),
   <SlotCard keys={key}/>
  )

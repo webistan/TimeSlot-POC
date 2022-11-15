@@ -3,7 +3,7 @@ import moment from 'moment'
 function SlotCard(props) {
   console.log("props",props.keys[1])
  
- const val= props.keys[1].map((value)=>{
+ const val= props.keys[1].map((value,idx)=>{
     console.log("value098",value.slot_time)
     return value
   })
@@ -26,8 +26,9 @@ function SlotCard(props) {
           
             <div className="wt-block" key={idx}>
               <div className="input-group">
-                <input type="time" className="w-130" defaultValue={moment(value.slot_time, 'hh:mm A').format('HH:mm:ss')}/>
-                <input type="text" className="w-90" defaultValue={value.slots} />
+                {/* <input type="time" className="w-130" defaultValue={moment(value.slot_time, 'hh:mm A').format('HH:mm:ss')}/> */}
+                <input type="time" className="w-130" defaultValue={value.start_time}/>
+                <input type="text" className="w-90" defaultValue={value.allocated_slot} />
                 <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
               </div>
            
