@@ -1,9 +1,11 @@
 import React, { createContext } from "react";
 
+import SlotCard from "../../components/SlotCard/Slotcard";
+
 export const MyContext = createContext();
 
 const SlotList = (props) => {
-  
+  const slots = { slot_time: "10"}
   return (
     <>  
     <div className="container">
@@ -198,6 +200,8 @@ const SlotList = (props) => {
       <button className="button2 btn-lg">Save Schedule</button>
     </div>
   </div>
+
+    <SlotCard slots={slots}/>
     </>
   );
 };
