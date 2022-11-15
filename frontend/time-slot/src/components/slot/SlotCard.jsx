@@ -7,7 +7,7 @@ import moment from "moment";
 export const MyContext = createContext();
 
 function SlotCard(props) {
-  //const { slotsObj } = props
+  const { weeklySlotsData } = props
   const [open, setOpen] = useState(false);
   const [slotsObj, setSlotsObj] = useState({});
 
@@ -65,8 +65,12 @@ function SlotCard(props) {
       setSlotsObj((oldState) => ({
         ...data.obj,
       }));
+
+      console.log('slotsObj in card page:: ',slotsObj)
     }
   };
+
+  console.log('weeklySlotsData are:: ',weeklySlotsData)
 
   return (
     <>
@@ -130,7 +134,7 @@ function SlotCard(props) {
 
 
 const mapStateToProps = (state) => ({
-  //slotsObj: state.slotReducer.slotsObj,
+  weeklySlotsData: state.slotReducer.weeklySlotsData,
 });
 
 const mapDispatchToProps = {

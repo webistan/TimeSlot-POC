@@ -20,7 +20,8 @@ function AddSlotPopUp(props) {
     const addSlot = () => {
       let json = {
         popUpClose: true,
-        addData: true
+        addData: true,
+        obj: slotsObj
       }
       onClose(json)
     }
