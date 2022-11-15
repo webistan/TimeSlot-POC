@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getSlotList,getDateData } from "../../redux/action/SlotAction";
 import { useState } from "react";
 // export const MyContext = createContext();
+import AddSlotPopUp from "../../components/slot/AddSlotPopUp";
 const SlotList = (props) => {
   
   const {
@@ -18,6 +19,8 @@ const SlotList = (props) => {
   console.log("slotList",slotList)
   let slots=slotList.slots
   console.log("slots123",slots)
+
+ 
   const[startDatee,setStartDate]=useState('')
   const[endDatee,setEndDate]=useState('')
 
@@ -40,6 +43,8 @@ const SlotList = (props) => {
  }
   console.log("valu34",startDatee,endDatee) 
  
+  
+
   return (
     <>  
     <div className="container">
@@ -58,10 +63,12 @@ const SlotList = (props) => {
  Object.entries(slots).map((key)=>(
    console.log("key",key),
   <SlotCard keys={key}/>
+ 
  )
  )
  
 }
+
   
 
       {/* <SlotCard/> */}
