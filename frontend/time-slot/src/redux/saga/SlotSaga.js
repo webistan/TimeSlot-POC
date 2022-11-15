@@ -5,11 +5,16 @@ import {
   GET_ALLSLOT_SUCCESS,
   GET_DATEDATA_REQUEST,
   GET_DATEDATA_ERROR,
-  GET_DATEDATA_SUCCESS
+  GET_DATEDATA_SUCCESS,
+  GET_SAVEWEEKLYSLOT_REQUEST,
+  GET_SAVEWEEKLYSLOT_SUCCESS,
+  SAVEWEEKLYSLOT_REQUEST,
+  SAVEWEEKLYSLOT_SUCCESS,
+  SAVEWEEKLYSLOT_ERROR
 } from "../constant/SlotConstant";
 
 function* getAllSlot(values) {
-  console.log("work with this slot");
+  console.log("work123",values);
   try {
     // const {key}=values;
     // console.log("key1",key);
@@ -246,10 +251,29 @@ function* getDateDataList(values) {
     yield put({ type: GET_DATEDATA_ERROR, err });
   }
 }
+
+function* addWeeklySlots(data) {
+  console.log("values567",data)
+  try {
+   
+    yield put({ type: SAVEWEEKLYSLOT_SUCCESS });
+    console.log("data saved successfully")
+    yield call(getAllSlot,data);
+
+  } catch (error) {
+    const err = error.message;
+     console.log("errrrrrrrrr",err);
+    yield put({ type: SAVEWEEKLYSLOT_ERROR, err });
+  }
+}
+
+
+
 export default () => {
   function* watcher() {
     yield takeLatest(GET_ALLSLOT_REQUEST, getAllSlot);
      yield takeLatest(GET_DATEDATA_REQUEST,getDateDataList);
+     yield takeLatest(SAVEWEEKLYSLOT_REQUEST,addWeeklySlots)
   }
   return { watcher };
 };

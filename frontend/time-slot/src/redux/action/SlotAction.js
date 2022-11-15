@@ -1,8 +1,9 @@
-import { GET_ALLSLOT_REQUEST, GET_DATEDATA_REQUEST } from "../constant/SlotConstant";
-export const getSlotList = () => {
+import { GET_ALLSLOT_REQUEST, GET_DATEDATA_REQUEST, GET_SAVEWEEKLYSLOT_REQUEST, SAVEWEEKLYSLOT_REQUEST } from "../constant/SlotConstant";
+export const getSlotList = (data) => {
     console.log("getSlot action here");
     return {
       type: GET_ALLSLOT_REQUEST,
+      data
     };
   };
 
@@ -14,3 +15,12 @@ export const getSlotList = () => {
       endDatee
     };
   };
+  export const addWeeklySlot = (data) => {
+    console.log("dat456",data);
+    return {
+      type:SAVEWEEKLYSLOT_REQUEST,
+      data
+    };
+  };
+
+  

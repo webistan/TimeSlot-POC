@@ -1,7 +1,7 @@
 import React, { createContext,useEffect } from "react";
 import SlotCard from "../../components/slot/SlotCard";
 import { connect } from "react-redux";
-import { getSlotList,getDateData } from "../../redux/action/SlotAction";
+import { getSlotList,getDateData, addWeeklySlot } from "../../redux/action/SlotAction";
 import { useState } from "react";
 // export const MyContext = createContext();
 import AddSlotPopUp from "../../components/slot/AddSlotPopUp";
@@ -14,7 +14,8 @@ const SlotList = (props) => {
     getSlotList,
     startDate,
     endDate,
-    getDateData
+    getDateData,
+    addWeeklySlot
   } = props;
   console.log("slotList",slotList)
   let slots=slotList.slots
@@ -25,7 +26,11 @@ const SlotList = (props) => {
   const[endDatee,setEndDate]=useState('')
 
   useEffect(() => {
-        getSlotList()
+    let data={
+      "start_date": "12-11-2022",
+    "end_date": "25-12-2022",
+    }
+        getSlotList(data)
   }, [getSlotList,])
   
  const onChangeHandle=async(e)=>{
@@ -43,6 +48,37 @@ const SlotList = (props) => {
  }
   console.log("valu34",startDatee,endDatee) 
  
+
+ const saveSlots=()=>{
+let data={
+
+  "start_date": "14-11-2022",
+
+  "end_date": "05-12-2022",
+
+  "slots": {
+
+      "Tuesday": [{
+
+          "slot_time": "02:30PM",
+
+          "slots": 10
+
+      }],
+
+       "Monday": [{
+
+          "slot_time": "09:30AM",
+
+          "slots": 10
+
+      }]
+
+  }
+
+}
+addWeeklySlot(data)
+ }
   
 
   return (
@@ -70,188 +106,9 @@ const SlotList = (props) => {
 }
 
   
-
-      {/* <SlotCard/> */}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Monday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div> */}
-        {/* <div className="wt-card-content">
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div>  */}
-          {/* slot:end*/}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-        {/* </div>
-      </div> */}
-      {/* card:end*/}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Tuesday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div>
-        <div className="wt-card-content"> */}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-        {/* </div>
-      </div> */}
-      {/* card:end*/}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Wednesday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div>
-        <div className="wt-card-content"> */}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-        {/* </div>
-      </div> */}
-      {/* card:end*/}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Thursday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div>
-        <div className="wt-card-content"> */}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-        {/* </div>
-      </div> */}
-      {/* card:end*/}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Friday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div>
-        <div className="wt-card-content"> */}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-          {/* slot:start*/}
-          {/* <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130" />
-              <input type="text" className="w-90" />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div> */}
-          {/* slot:end*/}
-        {/* </div>
-      </div> */}
-      {/* card:end*/}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Saturday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div>
-      </div> */}
-      {/* card:end*/}
-      {/* card:start */}
-      {/* <div className="wt-card">
-        <div className="wt-card-head">
-          <div className="card-head-left"><input type="checkbox" /> Sunday</div>
-          <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
-            <button className="button2">+ Add Slot</button>
-          </div>
-        </div>
-      </div> */}
-      {/* card:end*/}
     </div>
     <div style={{textAlign: 'right'}}>
-      <button className="button2 btn-lg">Save Schedule</button>
+      <button className="button2 btn-lg" onClick={()=>saveSlots()}>Save Schedule</button>
     </div>
   </div>
     </>
@@ -268,7 +125,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
    getSlotList,
-   getDateData
+   getDateData,
+   addWeeklySlot
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotList);
