@@ -1,14 +1,33 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-function AddSlotPopUp({open,onClose}) {
+import { MyContext } from "./SlotCard"
+
+function AddSlotPopUp(props) {
     // console.log("pro123",props)
+    const { open, onClose } = useContext(MyContext);
+
+    const onClosePopUp = () => {
+      let json = {
+        popUpClose: true,
+        addData: false
+      }
+      onClose(json)
+    }
+
+    const addSlot = () => {
+      let json = {
+        popUpClose: true,
+        addData: true
+      }
+      onClose(json)
+    }
   return (
     <div className="modal">
         <div className="wt-card">
           <div className="wt-card-head">
             <div className="card-head-left">Timeslot</div>
             <div className="card-head-right">
-              <button className="close" >X</button>
+              <button className="close" onClick={onClosePopUp}>X</button>
             </div>
           </div>
           <div>
@@ -47,7 +66,7 @@ function AddSlotPopUp({open,onClose}) {
                 <button className="btn1">S</button>
               </div>
             </div>
-            <button className="button2 modal-btn">+ Add Slot</button>
+            <button className="button2 modal-btn" onClick={addSlot}>+ Add Slot</button>
           </div>
         </div>
       </div>

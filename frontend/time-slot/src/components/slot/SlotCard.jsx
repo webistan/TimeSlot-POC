@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import moment from "moment";
+import React, { createContext, useState } from "react";
+
 import AddSlotPopUp from "./AddSlotPopUp";
+import moment from "moment";
+
+export const MyContext = createContext();
 
 function SlotCard(props) {
   const [open, setOpen] = useState(false);
@@ -20,8 +23,9 @@ function SlotCard(props) {
   const viewPopUp = () => {
     return (
       <>
-      
-        <AddSlotPopUp open={setOpen} onClose={closeViewPopUp} />
+        <MyContext.Provider value={{ open, onClose }}>
+          <AddSlotPopUp />
+        </MyContext.Provider>
       </>
     );
   };
@@ -29,8 +33,22 @@ function SlotCard(props) {
     setOpen(false);
   };
 
+  const onClose = (data) => {
+    console.log('dataa areee for popup close:: ',data)
+    if( data && data.popUpClose && !data.addData){
+      console.log('close popup data reset')
+      setOpen(false);
+    }
+
+    if( data && data.popUpClose && data.addData){
+      console.log('close popup data added')
+      setOpen(false);
+    }
+  };
+
   return (
     <>
+    
       <div className="wt-card">
         <div className="wt-card-head">
           <div className="card-head-left">
