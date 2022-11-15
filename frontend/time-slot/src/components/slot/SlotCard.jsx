@@ -1,12 +1,16 @@
 import React, { createContext, useState } from "react";
 
 import AddSlotPopUp from "./AddSlotPopUp";
+import { connect } from "react-redux";
 import moment from "moment";
 
 export const MyContext = createContext();
 
 function SlotCard(props) {
+  //const { slotsObj } = props
   const [open, setOpen] = useState(false);
+  const [slotsObj, setSlotsObj] = useState({});
+
   // const [popUpOpen, setPopUpOpen] = useState(false);
   console.log("props", props.keys[1]);
 
@@ -17,13 +21,22 @@ function SlotCard(props) {
   console.log("val123", val);
 
   const viewModal = () => {
+    let currentDayData = props.keys[1].filter((o) => o.allocated_day === props.keys[0])
+    console.log('currentDayData aree:: ',currentDayData)
+    let json = {}
+    json[props.keys[0]] = currentDayData
+    setSlotsObj((oldState) => ({
+      ...json,
+    }));
     setOpen(true);
   };
 
-  const viewPopUp = () => {
+  const viewPopUp = (day) => {
+    console.log('day are:: ',day)
+    
     return (
       <>
-        <MyContext.Provider value={{ open, onClose }}>
+        <MyContext.Provider value={{ addSlotsObject, day, open, onClose, slotsObj }}>
           <AddSlotPopUp />
         </MyContext.Provider>
       </>
@@ -32,6 +45,12 @@ function SlotCard(props) {
   const closeViewPopUp = () => {
     setOpen(false);
   };
+
+  const addSlotsObject = (data) => {
+    setSlotsObj((oldState) => ({
+      ...data,
+    }));
+  }
 
   const onClose = (data) => {
     console.log('dataa areee for popup close:: ',data)
@@ -43,6 +62,9 @@ function SlotCard(props) {
     if( data && data.popUpClose && data.addData){
       console.log('close popup data added')
       setOpen(false);
+      setSlotsObj((oldState) => ({
+        ...data.obj,
+      }));
     }
   };
 
@@ -59,9 +81,7 @@ function SlotCard(props) {
             <button className="button1">Copy Schedule</button>
             <button
               className="button2"
-              onClick={() => {
-                viewModal();
-              }}
+              onClick={(e) => {viewModal()}}
             >
               + Add Slot
             </button>
@@ -92,7 +112,7 @@ function SlotCard(props) {
               </div>
             ))}
         </div>
-        {open === true ? viewPopUp() : null}
+        {open === true ? viewPopUp(props.keys[0]) : null}
 
         {/* <div className="wt-card-content">
           <div className="wt-block">
@@ -108,4 +128,13 @@ function SlotCard(props) {
   );
 }
 
-export default SlotCard;
+
+const mapStateToProps = (state) => ({
+  //slotsObj: state.slotReducer.slotsObj,
+});
+
+const mapDispatchToProps = {
+  
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SlotCard);

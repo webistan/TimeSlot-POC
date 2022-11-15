@@ -6,6 +6,7 @@ const initialState = {
     slotList: {},
     startDate:'2022-11-09',
     endDate:'2022-11-26',
+    slotsObj: {}
     // slotDateList:{},
   };
 
