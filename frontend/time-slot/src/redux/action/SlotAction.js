@@ -7,12 +7,12 @@ export const getSlotList = (data) => {
     };
   };
 
-  export const getDateData = (startDatee,endDatee) => {
-    console.log("dat456",startDatee,endDatee);
+  export const getDateData = (start_date,end_date) => {
+    console.log("dat56",start_date,end_date);
     return {
       type: GET_DATEDATA_REQUEST,
-      startDatee,
-      endDatee
+      start_date,
+      end_date
     };
   };
   export const addWeeklySlot = (data) => {

@@ -10,208 +10,103 @@ import {
   GET_SAVEWEEKLYSLOT_SUCCESS,
   SAVEWEEKLYSLOT_REQUEST,
   SAVEWEEKLYSLOT_SUCCESS,
-  SAVEWEEKLYSLOT_ERROR
+  SAVEWEEKLYSLOT_ERROR,
 } from "../constant/SlotConstant";
+ const apigeturl=process.env.REACT_APP_API_URL
+// const apigeturl = "http://demo.webuters.com:8100/api";
+
+const getData = async (start_date, end_date) => {
+  console.log("startdate", start_date, end_date);
+  const response = await fetch(
+    `${apigeturl}/schedules?start_date=${start_date}&end_date=${end_date}`
+  );
+  const data = await response.json();
+  console.log("dataapi", data);
+  return data;
+};
 
 function* getAllSlot(values) {
-  console.log("work123",values);
+  console.log("work123", values.data);
   try {
-    // const {key}=values;
-    // console.log("key1",key);
-    let allSlotData =  {
+    const { data } = values;
+    const { start_date, end_date } = data;
+    console.log("data1", start_date, end_date);
+    const allSlotData = yield call(getData, start_date, end_date);
+    console.log("allslotData", allSlotData);
+    // let allSlotData = {
+    //   status: 200,
 
-  //     "Monday": [{
+    //   slots: {
+    //     Tuesday: [
+    //       {
+    //         id: 17,
 
-  //         "id": "1",
+    //         allocated_day: "Tuesday",
 
-  //         "slot_time": " 9:30AM",
+    //         start_time: "09:11:00",
 
-  //         "slots": 10
+    //         allocated_slot: 10,
+    //       },
+    //     ],
 
-  //     }, {
+    //     Saturday: [
+    //       {
+    //         id: 24,
 
-  //         "id": "2",
+    //         allocated_day: "Saturday",
 
-  //         "slot_time": "10:30AM",
+    //         start_time: "09:11:00",
 
-  //         "slots": 10
+    //         allocated_slot: 10,
+    //       },
 
-  //     }
-  //   ],
+    //       {
+    //         id: 30,
 
-  //     "Tuesday": [{
+    //         allocated_day: "Saturday",
 
-  //         "id": "3",
+    //         start_time: "10:11:00",
 
-  //         "slot_time": "9:30AM",
+    //         allocated_slot: 10,
+    //       },
 
-  //         "slots": 10
+    //       {
+    //         id: 36,
 
-  //     }, {
+    //         allocated_day: "Saturday",
 
-  //         "id": "4",
+    //         start_time: "10:30:00",
 
-  //         "slot_time": "10:30PM",
+    //         allocated_slot: 10,
+    //       },
+    //     ],
+    //     Monday: [
+    //       {
+    //         id: 18,
 
-  //         "slots": 10
+    //         allocated_day: "Monday",
 
-  //     }]
-  //     ,
-  //     "Wednesday": [{
+    //         start_time: "09:11:00",
 
-  //       "id": "5",
+    //         allocated_slot: 15,
+    //       },
+    //     ],
+    //     Wednesday: [
+    //       {
+    //         id: 18,
 
-  //       "slot_time": "9:30AM",
+    //         allocated_day: "Wednesday",
 
-  //       "slots": 10
+    //         start_time: "09:11:00",
 
-  //   }, {
-
-  //       "id": "6",
-
-  //       "slot_time": "10:30PM",
-
-  //       "slots": 10
-
-  //   }]
-  //   ,
-  //   "Thrusday": [{
-
-  //     "id": "7",
-
-  //     "slot_time": "9:30AM",
-
-  //     "slots": 10
-
-  // }, {
-
-  //     "id": "8",
-
-  //     "slot_time": "10:30PM",
-
-  //     "slots": 10
-
-  // }]
-  //  ,
-  //     "Friday": [{
-
-  //       "id": "9",
-
-  //       "slot_time": "9:30AM",
-
-  //       "slots": 10
-
-  //   }, {
-
-  //       "id": "10",
-
-  //       "slot_time": "10:30PM",
-
-  //       "slots": 10
-
-  //   }]
-  //    ,
-  //     "Saturday": []
-  //     ,
-  //     "Sunday": []
-
-  "status": 200,
-
-    "slots": {
-
-        "Tuesday": [
-
-            {
-
-                "id": 17,
-
-                "allocated_day": "Tuesday",
-
-                "start_time": "09:11:00",
-
-                "allocated_slot": 10
-
-            }
-
-        ],
-
-        "Saturday": [
-
-            {
-
-                "id": 24,
-
-                "allocated_day": "Saturday",
-
-                "start_time": "09:11:00",
-
-                "allocated_slot": 10
-
-            },
-
-            {
-
-                "id": 30,
-
-                "allocated_day": "Saturday",
-
-                "start_time": "10:11:00",
-
-                "allocated_slot": 10
-
-            },
-
-            {
-
-                "id": 36,
-
-                "allocated_day": "Saturday",
-
-                "start_time": "10:30:00",
-
-                "allocated_slot": 10
-
-            }
-
-        ],
-        "Monday": [
-
-          {
-
-              "id": 18,
-
-              "allocated_day": "Monday",
-
-              "start_time": "09:11:00",
-
-              "allocated_slot": 15
-
-          }
-
-      ],
-      "Wednesday": [
-
-        {
-
-            "id": 18,
-
-            "allocated_day": "Wednesday",
-
-            "start_time": "09:11:00",
-
-            "allocated_slot": 15
-
-        }
-
-    ],
-    "Friday": [],
-  "Sunday": [],
-    
-
-    }
-
-  };
-    yield put({ type: GET_ALLSLOT_SUCCESS,allSlotData  });
+    //         allocated_slot: 15,
+    //       },
+    //     ],
+    //     Friday: [],
+    //     Sunday: [],
+    //   },
+    // };
+    yield put({ type: GET_ALLSLOT_SUCCESS, allSlotData });
   } catch (error) {
     const err = error.message;
     // console.log("errrrrrrrrr",err);
@@ -220,31 +115,38 @@ function* getAllSlot(values) {
 }
 
 function* getDateDataList(values) {
-  console.log("values567",values)
+  console.log("values567", values);
   try {
-    let allSlotDateData =  {
-      "status": 200,
+    const {start_date,end_date}=values
+  //  const start_date= start_datee.split("-").reverse().join("-");
+  //  const end_date= end_datee.split("-").reverse().join("-");
+   console.log("start_date23",start_date,end_date)
+    if(start_date && end_date===''||undefined){
+return;
+    }else{
+      const allSlotDateData = yield call(getData, start_date, end_date);
+      console.log("allSlotDateData", allSlotDateData);
+      yield put({ type: GET_DATEDATA_SUCCESS, allSlotDateData });
+    }
+    
+    // let allSlotDateData = {
+    //   status: 200,
 
-    "slots": {
-      "Monday": [
+    //   slots: {
+    //     Monday: [
+    //       {
+    //         id: 18,
 
-        {
+    //         allocated_day: "Monday",
 
-            "id": 18,
+    //         start_time: "09:11:00",
 
-            "allocated_day": "Monday",
-
-            "start_time": "09:11:00",
-
-            "allocated_slot": 15
-
-        }
-
-    ],
-  }
-
-  };
-    yield put({ type: GET_DATEDATA_SUCCESS,allSlotDateData });
+    //         allocated_slot: 15,
+    //       },
+    //     ],
+    //   },
+    // };
+  
   } catch (error) {
     const err = error.message;
     // console.log("errrrrrrrrr",err);
@@ -253,27 +155,23 @@ function* getDateDataList(values) {
 }
 
 function* addWeeklySlots(data) {
-  console.log("values567",data)
+  console.log("values5679", data);
   try {
-   
     yield put({ type: SAVEWEEKLYSLOT_SUCCESS });
-    console.log("data saved successfully")
-    yield call(getAllSlot,data);
-
+    console.log("data saved successfully");
+    yield call(getDateDataList, data);
   } catch (error) {
     const err = error.message;
-     console.log("errrrrrrrrr",err);
+    console.log("errrrrrrrrr", err);
     yield put({ type: SAVEWEEKLYSLOT_ERROR, err });
   }
 }
 
-
-
 export default () => {
   function* watcher() {
     yield takeLatest(GET_ALLSLOT_REQUEST, getAllSlot);
-     yield takeLatest(GET_DATEDATA_REQUEST,getDateDataList);
-     yield takeLatest(SAVEWEEKLYSLOT_REQUEST,addWeeklySlots)
+    yield takeLatest(GET_DATEDATA_REQUEST, getDateDataList);
+    yield takeLatest(SAVEWEEKLYSLOT_REQUEST, addWeeklySlots);
   }
   return { watcher };
 };

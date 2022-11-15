@@ -35,7 +35,8 @@ const SlotList = (props) => {
   
  const onChangeHandle=async(e)=>{
   const name = e.target.name;
-  const value = e.target.value;
+  const value = e.target.value.split("-").reverse().join("-");
+  console.log("va890",value) 
   if (name === "startDate") {
     setStartDate(value);
     getDateData(value,endDatee)
