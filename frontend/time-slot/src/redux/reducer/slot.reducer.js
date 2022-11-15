@@ -1,4 +1,4 @@
-import { GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, GET_ALLSLOT_SUCCESS, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS } from "../constant/SlotConstant";
+import { GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, GET_ALLSLOT_SUCCESS,ADDSLOT_REQUEST, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS } from "../constant/SlotConstant";
 
 const initialState = {
     error: "",
@@ -45,6 +45,19 @@ const initialState = {
             error: action.err,
           };
      
+          case ADDSLOT_REQUEST:
+
+        return {
+
+          ...state,
+
+          //loading: true,
+
+          slotList: action.data,
+
+          //  count: initialState.count + 1
+
+        };
       default:
         return state;
     }

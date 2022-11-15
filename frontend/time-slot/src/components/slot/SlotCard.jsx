@@ -3,11 +3,12 @@ import React, { createContext, useState } from "react";
 import AddSlotPopUp from "./AddSlotPopUp";
 import { connect } from "react-redux";
 import moment from "moment";
+import { addSlotInObject } from '../../redux/action/SlotAction'
 
 export const MyContext = createContext();
 
 function SlotCard(props) {
-  const { weeklySlotsData } = props;
+  const { slotList,addSlotInObject } = props;
   const [open, setOpen] = useState(false);
   const [slotsObj, setSlotsObj] = useState({});
 
@@ -103,21 +104,49 @@ const timeSlotJson={
       const newSlotObj = JSON.parse(JSON.stringify(slotsObj));
       console.log("newSlotObject", newSlotObj);
 
-      let datafiltered = Object.entries(newSlotObj).filter((o) => o);
-      const filterValue = datafiltered[0].filter((value) => value);
-      const jsonData = filterValue[1].filter((value) => !value.id);
-      console.log("datvalue1", jsonData);
+      // let datafiltered = Object.entries(newSlotObj).filter((o) => o);
+      // const filterValue = datafiltered[0].filter((value) => value);
+      // const jsonData = filterValue[1].filter((value) => !value.id);
+      // console.log("datvalue1", jsonData);
 
-      const newJsonData = JSON.parse(JSON.stringify(weeklySlotsData));
+      let newJsonData = JSON.parse(JSON.stringify(slotList));
       console.log("newJsonData", newJsonData);
 
 
+      newJsonData["start_date"]= "20-09-2022"
+       newJsonData["end_date"]= "20-11-2022"
+       newJsonData["slots"][props.keys[0]]=newSlotObj[props.keys[0]]
+       console.log("newJsonData123", newJsonData);
+       addSlotInObject(newJsonData)
 
-    }
+      // let dayKey=jsonData.filter((key)=>key)
+      // console.log("daykey",dayKey[0].allocated_day)
+      // const daySlot=dayKey[0].allocated_day
+      // console.log("daySlot",daySlot)
+
+// let obj={
+//   "start_date": "12-09-2022",
+
+//   "end_date": "22-10-2022",
+//   "slots": {
+
+//     [daySlot]: jsonData,
+// }
+
+}
+// console.log("obj567",obj)
+
+// newJsonData=obj
+//  console.log("newdata90",newJsonData)
+
+    // }
+
+
+
 
   };
 
-  console.log("weeklySlotsData are:: ", weeklySlotsData);
+  console.log("slotList are:: ", slotList);
 
   return (
     <>
@@ -181,9 +210,13 @@ const timeSlotJson={
 }
 
 const mapStateToProps = (state) => ({
-  weeklySlotsData: state.slotReducer.weeklySlotsData,
+  slotList: state.slotReducer.slotList,
+
+
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  addSlotInObject
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotCard);
