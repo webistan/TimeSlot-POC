@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-
+import moment from "moment";
 import { MyContext } from "./SlotCard"
 
 function AddSlotPopUp(props) {
@@ -115,7 +115,7 @@ function AddSlotPopUp(props) {
                         return (
                             
                                <div className="tag" key={idx}>
-                                  09:30AM/<span>10Slots</span>
+                                  {moment(item.start_time,'HH:mm:ss').format('hh:mm A')}/<span>{item.allocated_slot}Slots</span>
                                   <div className="close-tag">X</div>
                                 </div>
                         )

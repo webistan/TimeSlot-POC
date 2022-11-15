@@ -7,9 +7,38 @@ import moment from "moment";
 export const MyContext = createContext();
 
 function SlotCard(props) {
-  const { weeklySlotsData } = props
+  const { weeklySlotsData } = props;
   const [open, setOpen] = useState(false);
   const [slotsObj, setSlotsObj] = useState({});
+
+const timeSlotJson={
+
+  "start_date": "",
+
+  "end_date": "",
+
+  "slots": {
+
+      "Tuesday": [{
+
+          "start_time": "02:30PM",
+
+          "allocated_slot": 10
+
+      }],
+
+       "Monday": [{
+
+          "start_time": "09:30AM",
+
+          "allocated_slot": 10
+
+      }]
+
+  }
+
+}
+  
 
   // const [popUpOpen, setPopUpOpen] = useState(false);
   console.log("props", props.keys[1]);
@@ -21,10 +50,12 @@ function SlotCard(props) {
   console.log("val123", val);
 
   const viewModal = () => {
-    let currentDayData = props.keys[1].filter((o) => o.allocated_day === props.keys[0])
-    console.log('currentDayData aree:: ',currentDayData)
-    let json = {}
-    json[props.keys[0]] = currentDayData
+    let currentDayData = props.keys[1].filter(
+      (o) => o.allocated_day === props.keys[0]
+    );
+    console.log("currentDayData aree:: ", currentDayData);
+    let json = {};
+    json[props.keys[0]] = currentDayData;
     setSlotsObj((oldState) => ({
       ...json,
     }));
@@ -32,11 +63,13 @@ function SlotCard(props) {
   };
 
   const viewPopUp = (day) => {
-    console.log('day are:: ',day)
-    
+    console.log("day are:: ", day);
+
     return (
       <>
-        <MyContext.Provider value={{ addSlotsObject, day, open, onClose, slotsObj }}>
+        <MyContext.Provider
+          value={{ addSlotsObject, day, open, onClose, slotsObj }}
+        >
           <AddSlotPopUp />
         </MyContext.Provider>
       </>
@@ -50,31 +83,44 @@ function SlotCard(props) {
     setSlotsObj((oldState) => ({
       ...data,
     }));
-  }
+  };
 
   const onClose = (data) => {
-    console.log('dataa areee for popup close:: ',data)
-    if( data && data.popUpClose && !data.addData){
-      console.log('close popup data reset')
+    console.log("dataa areee for popup close:: ", data);
+    if (data && data.popUpClose && !data.addData) {
+      console.log("close popup data reset");
       setOpen(false);
     }
 
-    if( data && data.popUpClose && data.addData){
-      console.log('close popup data added')
+    if (data && data.popUpClose && data.addData) {
+      console.log("close popup data added");
       setOpen(false);
       setSlotsObj((oldState) => ({
         ...data.obj,
       }));
 
-      console.log('slotsObj in card page:: ',slotsObj)
+      console.log("slotsObj in card page:: ", slotsObj);
+      const newSlotObj = JSON.parse(JSON.stringify(slotsObj));
+      console.log("newSlotObject", newSlotObj);
+
+      let datafiltered = Object.entries(newSlotObj).filter((o) => o);
+      const filterValue = datafiltered[0].filter((value) => value);
+      const jsonData = filterValue[1].filter((value) => !value.id);
+      console.log("datvalue1", jsonData);
+
+      const newJsonData = JSON.parse(JSON.stringify(weeklySlotsData));
+      console.log("newJsonData", newJsonData);
+
+
+
     }
+
   };
 
-  console.log('weeklySlotsData are:: ',weeklySlotsData)
+  console.log("weeklySlotsData are:: ", weeklySlotsData);
 
   return (
     <>
-    
       <div className="wt-card">
         <div className="wt-card-head">
           <div className="card-head-left">
@@ -85,7 +131,9 @@ function SlotCard(props) {
             <button className="button1">Copy Schedule</button>
             <button
               className="button2"
-              onClick={(e) => {viewModal()}}
+              onClick={(e) => {
+                viewModal();
+              }}
             >
               + Add Slot
             </button>
@@ -132,13 +180,10 @@ function SlotCard(props) {
   );
 }
 
-
 const mapStateToProps = (state) => ({
   weeklySlotsData: state.slotReducer.weeklySlotsData,
 });
 
-const mapDispatchToProps = {
-  
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotCard);
