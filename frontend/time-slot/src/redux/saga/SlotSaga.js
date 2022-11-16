@@ -77,7 +77,7 @@ function* getDateDataList(values) {
     yield put({ type: GET_DATEDATA_ERROR, err });
   }
 }
-async function createFinalJson (newdata) {
+async function createFinalJson (newdata, start_date, end_date) {
   try{
     let slotData = _.flatten(newdata);
     let weekDays = _.uniq(_.map(slotData, "allocated_day"));
@@ -95,8 +95,8 @@ async function createFinalJson (newdata) {
     });
     let obj = {
       slots: finalobj,
-      start_date: "15-11-2022",
-      end_date: "16-11-2022",
+      start_date: start_date,
+      end_date: end_date,
     };
 // console.log("final Value", JSON.stringify(obj));
     return obj
@@ -129,7 +129,11 @@ function* addWeeklySlots(values) {
   console.log("values5679", values);
   const { data } = values;
   let slot = data.slots;
+  let { start_date, end_date } = data
+  start_date =  start_date.split("-").reverse().join("-");
+  end_date =  end_date.split("-").reverse().join("-");
 
+  console.log('end_date areeEE:: , ',end_date)
   let datafiltered = Object.entries(slot).filter((o) => o !== "");
   console.log("datafiltered", datafiltered);
 
@@ -145,14 +149,19 @@ function* addWeeklySlots(values) {
   console.log("newdata", newdata);
 
 
-  let finalObject = yield call(createFinalJson, newdata)
+  let finalObject = yield call(createFinalJson, newdata, start_date, end_date)
   console.log('finalObj are:: ',finalObject)   
 
   try {
     const saveData = yield call(postData,finalObject);
     yield put({ type: SAVEWEEKLYSLOT_SUCCESS,saveData });
     console.log("data saved successfully");
-    // yield call(getDateDataList, data);
+    let data = {
+      start_date: start_date,
+      end_date: end_date
+    }
+    //yield call(getAllSlot, data);
+    yield put({ type: GET_ALLSLOT_REQUEST, data })
   } catch (error) {
     const err = error.message;
     console.log("errrrrrrrrr", err);
@@ -177,10 +186,15 @@ const deleteData = async (start_time, allocated_day) => {
 function* deleteTimeSlot(values) {
   //console.log("values567", values);
   try {
-    const { start_time, allocated_day } = values;
+    const { start_time, allocated_day, start_date, end_date } = values;
     //console.log("deletesagavalue", start_time, allocated_day);
-    const SlotDeleteData = yield call(deleteData, start_time, allocated_day);
+      yield call(deleteData, start_time, allocated_day);
       yield put({ type: DELETE_SLOT_SUCCESS, start_time,allocated_day });
+      let data = {
+        start_date: start_date,
+        end_date: end_date
+      }
+      yield put({ type: GET_ALLSLOT_REQUEST, data })
       console.log("data deleted successfully")
 
   } catch (error) {

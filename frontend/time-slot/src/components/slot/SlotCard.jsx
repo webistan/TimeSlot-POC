@@ -38,7 +38,8 @@ function SlotCard(props) {
   };
 
   // const [popUpOpen, setPopUpOpen] = useState(false);
- // console.log("props", props.keys[1]);
+//  console.log("props", props.keys[1]);
+console.log("slotList", slotList);
 
   const val = props.keys[1].map((value, idx) => {
     //console.log("value098", value.slot_time);
@@ -134,7 +135,9 @@ function SlotCard(props) {
 
   const deleteSlot=(start_time,allocated_day)=>{
     //console.log("delete",start_time,allocated_day)
-    deleteSlotData(start_time,allocated_day)
+    let start_date = slotList && slotList.start_date
+    let end_date = slotList && slotList.end_date
+    deleteSlotData(start_time,allocated_day, start_date, end_date)
 
   }
 

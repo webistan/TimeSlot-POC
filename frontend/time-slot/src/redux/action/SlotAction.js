@@ -35,10 +35,12 @@ export const addSlotInObject = (data) => {
   };
 };
 
-export const deleteSlotData = (start_time,allocated_day) => {
+export const deleteSlotData = (start_time, allocated_day, start_date, end_date) => {
   return {
     type: DELETE_SLOT_REQUEST,
    start_time,
-   allocated_day
+   allocated_day,
+   start_date, 
+   end_date
   };
 };
