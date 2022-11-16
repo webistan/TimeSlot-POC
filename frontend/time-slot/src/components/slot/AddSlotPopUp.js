@@ -8,7 +8,7 @@ import moment from "moment";
 function AddSlotPopUp(props) {
     // console.log("pro123",props)
     const { addSlotInObject } = props
-    const { addSlotsObj, day, open, onClose, slotsObj, slotList } = useContext(MyContext);
+    const { addSlotsObj, day, open, onClose, slotsObj, slotList, slotCopyDay, copySolts } = useContext(MyContext);
     const [dayFlag, setDayFlag] = useState(true)
     const [slotTime, setSlotTime] = useState("")
     const [slotNumber, setSlotNumber] = useState("")
@@ -61,32 +61,62 @@ function AddSlotPopUp(props) {
       
     }
 
-    const onHandleCopySlot = (data) => {
-      console.log('copy day name are:: ',data)
-      console.log('current day are:: ',day)
+    // const onHandleCopySlot = (data) => {
+    //   console.log('copy day name are:: ',data)
+    //   console.log('current day are:: ',day)
 
+    //   let newJsonData = JSON.parse(JSON.stringify(slotList));
+    //   console.log("newJsonData", newJsonData);
+
+
+    //   //newJsonData["start_date"]= "20-09-2022"
+    //   //newJsonData["end_date"]= "20-11-2022"
+
+    //   let cloneCopyData = JSON.parse(JSON.stringify(slotList.slots[day]));
+    //   if(cloneCopyData && cloneCopyData.length > 0){
+    //     console.log('cloneCopyData are:; ',cloneCopyData)
+    //     cloneCopyData.forEach((item) => {
+    //       delete item['id']
+    //       item['allocated_day'] = data
+    //     })
+    //     console.log('cloneCopyData after are:; ',cloneCopyData)
+    //   }
+    //   newJsonData["slots"][data]= cloneCopyData //slotList.slots[day]
+
+    //   console.log("newJsonData after", newJsonData);
+    //   // console.log("newJsonData123", newJsonData);
+    //   addSlotInObject(newJsonData)
+
+    // }
+
+    const onHandleCopySlot = (copyDay) => {
+      console.log('copy day name are:: ',copyDay)
+      console.log('current day are:: ',day)
+      console.log('slotsObj dataaaa::: ',slotsObj[day])
+
+      //copySolts({copyDay:copyDay, currentDay:day })
+  
       let newJsonData = JSON.parse(JSON.stringify(slotList));
       console.log("newJsonData", newJsonData);
-
-
-      //newJsonData["start_date"]= "20-09-2022"
-      //newJsonData["end_date"]= "20-11-2022"
-
-      let cloneCopyData = JSON.parse(JSON.stringify(slotList.slots[day]));
+  
+  
+     
+  
+      let cloneCopyData = JSON.parse(JSON.stringify(slotsObj[day]));
       if(cloneCopyData && cloneCopyData.length > 0){
         console.log('cloneCopyData are:; ',cloneCopyData)
         cloneCopyData.forEach((item) => {
           delete item['id']
-          item['allocated_day'] = data
+          item['allocated_day'] = copyDay
         })
         console.log('cloneCopyData after are:; ',cloneCopyData)
       }
-      newJsonData["slots"][data]= cloneCopyData //slotList.slots[day]
-
+      newJsonData["slots"][copyDay]= cloneCopyData 
+  
       console.log("newJsonData after", newJsonData);
       // console.log("newJsonData123", newJsonData);
       addSlotInObject(newJsonData)
-
+  
     }
 
     console.log('slotsObj are:: ',slotsObj)

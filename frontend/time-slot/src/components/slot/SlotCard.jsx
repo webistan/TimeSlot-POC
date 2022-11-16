@@ -11,6 +11,7 @@ function SlotCard(props) {
   const { slotList, addSlotInObject ,deleteSlotData} = props;
   const [open, setOpen] = useState(false);
   const [slotsObj, setSlotsObj] = useState({});
+  const [slotCopyDay, setSlotCopyDay] = useState([]);
 
   const timeSlotJson = {
     start_date: "",
@@ -55,16 +56,19 @@ function SlotCard(props) {
     setSlotsObj((oldState) => ({
       ...json,
     }));
+
+
     setOpen(true);
   };
 
+  console.log('slotCopyDay are::: ', slotCopyDay)
   const viewPopUp = (day) => {
     console.log("day are:: ", day);
 
     return (
       <>
         <MyContext.Provider
-          value={{ addSlotsObj, day, open, onClose, slotsObj, slotList }}
+          value={{ addSlotsObj, day, open, onClose, slotsObj, slotList, slotCopyDay, copySolts }}
         >
           <AddSlotPopUp />
         </MyContext.Provider>
@@ -115,6 +119,17 @@ function SlotCard(props) {
     }
   };
 
+  const copySolts = (data) => {
+    console.log('copySolts data are::: ', data)
+    // console.log('slotCopyDay data are::: ', slotCopyDay)
+    // let arr = []
+    // arr = slotCopyDay;
+    // arr.push(data)
+    setSlotCopyDay((oldState) => (
+      [...oldState,data]
+    ));
+  } 
+
   console.log("slotList are:: ", slotList);
 
   const deleteSlot=(start_time,allocated_day)=>{
@@ -161,14 +176,16 @@ function SlotCard(props) {
                     className="w-90"
                     defaultValue={value.allocated_slot}
                   />
+                  {value && value.id ?
                   <span
                     className="delete-btn"
                     onClick={() =>
                       deleteSlot(value.start_time, value.allocated_day)
                     }
                   >
-                    <i className="fa-sharp fa-solid fa-trash" />
+                     <i className="fa-sharp fa-solid fa-trash" /> 
                   </span>
+                  : null}
                 </div>
               </div>
             ))}
