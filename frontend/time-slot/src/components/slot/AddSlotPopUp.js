@@ -1,14 +1,20 @@
 import React, { useContext, useState } from 'react'
-import moment from "moment";
+
 import { MyContext } from "./SlotCard"
+import { addSlotInObject } from '../../redux/action/SlotAction'
+import { connect } from "react-redux";
+import moment from "moment";
 
 function AddSlotPopUp(props) {
     // console.log("pro123",props)
-    const { addSlotsObject, day, open, onClose, slotsObj } = useContext(MyContext);
+    const { addSlotInObject } = props
+    const { addSlotsObj, day, open, onClose, slotsObj, slotList } = useContext(MyContext);
     const [dayFlag, setDayFlag] = useState(true)
     const [slotTime, setSlotTime] = useState("")
     const [slotNumber, setSlotNumber] = useState("")
 
+    console.log('slotList are::: ',slotList)
+    
     const onClosePopUp = () => {
       let json = {
         popUpClose: true,
@@ -44,15 +50,43 @@ function AddSlotPopUp(props) {
       setSlotNumber(e.target.value)
     }
 
-    const addSlotInObj = (e) => {
+    const addSlotInCard = (e) => {
       console.log('slotsObj are:: ',slotsObj)
       let arr = slotsObj[day]
       arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
       let json = {
         [day]: arr
       }
-      addSlotsObject(json)
+      addSlotsObj(json)
       
+    }
+
+    const onHandleCopySlot = (data) => {
+      console.log('copy day name are:: ',data)
+      console.log('current day are:: ',day)
+
+      let newJsonData = JSON.parse(JSON.stringify(slotList));
+      console.log("newJsonData", newJsonData);
+
+
+      //newJsonData["start_date"]= "20-09-2022"
+      //newJsonData["end_date"]= "20-11-2022"
+
+      let cloneCopyData = JSON.parse(JSON.stringify(slotList.slots[day]));
+      if(cloneCopyData && cloneCopyData.length > 0){
+        console.log('cloneCopyData are:; ',cloneCopyData)
+        cloneCopyData.forEach((item) => {
+          delete item['id']
+          item['allocated_day'] = data
+        })
+        console.log('cloneCopyData after are:; ',cloneCopyData)
+      }
+      newJsonData["slots"][data]= cloneCopyData //slotList.slots[day]
+
+      console.log("newJsonData after", newJsonData);
+      // console.log("newJsonData123", newJsonData);
+      addSlotInObject(newJsonData)
+
     }
 
     console.log('slotsObj are:: ',slotsObj)
@@ -70,7 +104,7 @@ function AddSlotPopUp(props) {
             <div className="input-group">
               <input type="time" className="w-130" onChange={onChangeSlotTime}/>
               <input type="text" className="w-90" onChange={onChangeSlotNumber}/>
-              <span className="add-btn" onClick={addSlotInObj}><i className="fa-sharp fa-solid fa-plus" style={{color: '#ff4eb2'}} /></span>
+              <span className="add-btn" onClick={addSlotInCard}><i className="fa-sharp fa-solid fa-plus" style={{color: '#ff4eb2'}} /></span>
             </div>
             <div className="tag-outer">
             {/* {
@@ -142,13 +176,29 @@ function AddSlotPopUp(props) {
             <div className="bottom-block">
               <h4>Copy Schedule</h4>
               <div className="days">
-                <button className="btn1">S</button>
-                <button className="btn1 btnhover">M</button>
+                {
+                  slotList && slotList.slots && Object.keys(slotList.slots).map((value,idx)=> {
+                    //console.log('value are:: ',value)
+                    if(slotList.slots[value].length > 0){
+                      console.log('data hai :: ',value)
+                      return (
+                        <button key={idx} className="btn1 btnhover" disabled>{value}</button>
+                      )
+                    }else{
+                      console.log('data nhi  hai :: ',value)
+                      return (
+                        <button key={idx} className="btn1" onClick={(e) => onHandleCopySlot(value)}>{value}</button>
+                      )
+                    }
+                  })
+                }
+                {/* <button className="btn1">S</button>
+                <button className="btn1">M</button>
                 <button className="btn1">T</button>
                 <button className="btn1">W</button>
-                <button className="btn1 btnhover">Th</button>
+                <button className="btn1">Th</button>
                 <button className="btn1">F</button>
-                <button className="btn1">S</button>
+                <button className="btn1">S</button> */}
               </div>
             </div>
             <button className="button2 modal-btn" onClick={addSlot}>+ Add Slot</button>
@@ -158,4 +208,12 @@ function AddSlotPopUp(props) {
   )
 }
 
-export default AddSlotPopUp
+
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = {
+  addSlotInObject
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddSlotPopUp);

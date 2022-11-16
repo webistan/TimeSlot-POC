@@ -1,9 +1,9 @@
 import React, { createContext, useState } from "react";
+import { addSlotInObject, deleteSlotData } from "../../redux/action/SlotAction";
 
 import AddSlotPopUp from "./AddSlotPopUp";
 import { connect } from "react-redux";
 import moment from "moment";
-import { addSlotInObject,deleteSlotData } from "../../redux/action/SlotAction";
 
 export const MyContext = createContext();
 
@@ -64,7 +64,7 @@ function SlotCard(props) {
     return (
       <>
         <MyContext.Provider
-          value={{ addSlotsObject, day, open, onClose, slotsObj }}
+          value={{ addSlotsObj, day, open, onClose, slotsObj, slotList }}
         >
           <AddSlotPopUp />
         </MyContext.Provider>
@@ -75,7 +75,7 @@ function SlotCard(props) {
     setOpen(false);
   };
 
-  const addSlotsObject = (data) => {
+  const addSlotsObj = (data) => {
     setSlotsObj((oldState) => ({
       ...data,
     }));
