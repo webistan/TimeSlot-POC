@@ -3,43 +3,38 @@ import React, { createContext, useState } from "react";
 import AddSlotPopUp from "./AddSlotPopUp";
 import { connect } from "react-redux";
 import moment from "moment";
-import { addSlotInObject } from '../../redux/action/SlotAction'
+import { addSlotInObject,deleteSlotData } from "../../redux/action/SlotAction";
 
 export const MyContext = createContext();
 
 function SlotCard(props) {
-  const { slotList,addSlotInObject } = props;
+  const { slotList, addSlotInObject ,deleteSlotData} = props;
   const [open, setOpen] = useState(false);
   const [slotsObj, setSlotsObj] = useState({});
 
-const timeSlotJson={
+  const timeSlotJson = {
+    start_date: "",
 
-  "start_date": "",
+    end_date: "",
 
-  "end_date": "",
+    slots: {
+      Tuesday: [
+        {
+          start_time: "02:30PM",
 
-  "slots": {
+          allocated_slot: 10,
+        },
+      ],
 
-      "Tuesday": [{
+      Monday: [
+        {
+          start_time: "09:30AM",
 
-          "start_time": "02:30PM",
-
-          "allocated_slot": 10
-
-      }],
-
-       "Monday": [{
-
-          "start_time": "09:30AM",
-
-          "allocated_slot": 10
-
-      }]
-
-  }
-
-}
-  
+          allocated_slot: 10,
+        },
+      ],
+    },
+  };
 
   // const [popUpOpen, setPopUpOpen] = useState(false);
   console.log("props", props.keys[1]);
@@ -112,41 +107,21 @@ const timeSlotJson={
       let newJsonData = JSON.parse(JSON.stringify(slotList));
       console.log("newJsonData", newJsonData);
 
-
-      newJsonData["start_date"]= "20-09-2022"
-       newJsonData["end_date"]= "20-11-2022"
-       newJsonData["slots"][props.keys[0]]=newSlotObj[props.keys[0]]
-       console.log("newJsonData123", newJsonData);
-       addSlotInObject(newJsonData)
-
-      // let dayKey=jsonData.filter((key)=>key)
-      // console.log("daykey",dayKey[0].allocated_day)
-      // const daySlot=dayKey[0].allocated_day
-      // console.log("daySlot",daySlot)
-
-// let obj={
-//   "start_date": "12-09-2022",
-
-//   "end_date": "22-10-2022",
-//   "slots": {
-
-//     [daySlot]: jsonData,
-// }
-
-}
-// console.log("obj567",obj)
-
-// newJsonData=obj
-//  console.log("newdata90",newJsonData)
-
-    // }
-
-
-
-
+      newJsonData["start_date"] = "20-09-2022";
+      newJsonData["end_date"] = "20-11-2022";
+      newJsonData["slots"][props.keys[0]] = newSlotObj[props.keys[0]];
+      console.log("newJsonData123", newJsonData);
+      addSlotInObject(newJsonData);
+    }
   };
 
   console.log("slotList are:: ", slotList);
+
+  const deleteSlot=(start_time,allocated_day)=>{
+    console.log("delete",start_time,allocated_day)
+    deleteSlotData(start_time,allocated_day)
+
+  }
 
   return (
     <>
@@ -186,7 +161,12 @@ const timeSlotJson={
                     className="w-90"
                     defaultValue={value.allocated_slot}
                   />
-                  <span className="delete-btn">
+                  <span
+                    className="delete-btn"
+                    onClick={() =>
+                      deleteSlot(value.start_time, value.allocated_day)
+                    }
+                  >
                     <i className="fa-sharp fa-solid fa-trash" />
                   </span>
                 </div>
@@ -214,7 +194,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  addSlotInObject
+  addSlotInObject,
+  deleteSlotData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotCard);

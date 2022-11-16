@@ -1,4 +1,4 @@
-import { GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, GET_ALLSLOT_SUCCESS,ADDSLOT_REQUEST, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS } from "../constant/SlotConstant";
+import { GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, DELETE_SLOT_SUCCESS, GET_ALLSLOT_SUCCESS,ADDSLOT_REQUEST, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS } from "../constant/SlotConstant";
 
 const initialState = {
     error: "",
@@ -58,6 +58,10 @@ const initialState = {
           //  count: initialState.count + 1
 
         };
+        case  DELETE_SLOT_SUCCESS:
+      return {
+        ...state,
+      };
       default:
         return state;
     }

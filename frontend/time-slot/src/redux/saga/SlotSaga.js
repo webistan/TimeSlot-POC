@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import moment from "moment";
 import {
   GET_ALLSLOT_ERROR,
   GET_ALLSLOT_REQUEST,
@@ -11,6 +12,9 @@ import {
   SAVEWEEKLYSLOT_REQUEST,
   SAVEWEEKLYSLOT_SUCCESS,
   SAVEWEEKLYSLOT_ERROR,
+  DELETE_SLOT_REQUEST,
+  DELETE_SLOT_SUCCESS,
+  DELETE_SLOT_ERROR,
 } from "../constant/SlotConstant";
 const apigeturl = process.env.REACT_APP_API_URL;
 // const apigeturl = "http://demo.webuters.com:8100/api";
@@ -129,23 +133,6 @@ function* getDateDataList(values) {
       yield put({ type: GET_DATEDATA_SUCCESS, allSlotDateData });
     }
 
-    // let allSlotDateData = {
-    //   status: 200,
-
-    //   slots: {
-    //     Monday: [
-    //       {
-    //         id: 18,
-
-    //         allocated_day: "Monday",
-
-    //         start_time: "09:11:00",
-
-    //         allocated_slot: 15,
-    //       },
-    //     ],
-    //   },
-    // };
   } catch (error) {
     const err = error.message;
     // console.log("errrrrrrrrr",err);
@@ -185,7 +172,7 @@ let obj={}
     "end_date": data.end_date,
     "slots": {
 
-      [daySlot]: newdata,
+      [val.allocated_day]: val,
   }
 
   }
@@ -193,10 +180,10 @@ let obj={}
   })
 
  })
-  // console.log("datkey",dayKey)
+  //console.log("datkey",dayKey)
 
   
-  // console.log("obj567",obj)
+   console.log("obj567",obj)
 
   try {
     yield put({ type: SAVEWEEKLYSLOT_SUCCESS });
@@ -209,11 +196,43 @@ let obj={}
   }
 }
 
+const deleteData = async (start_time, allocated_day) => {
+  console.log("startdate", start_time, allocated_day);
+// const  start_timee=moment(start_time,'HH:mm:ss').format('hh:mm A')
+  const response = await fetch(`http://demo.webuters.com:8100/api/schedules/destroy?start_time=${start_time}&allocated_day=${allocated_day}`,{
+      method:'DELETE',
+       
+    }
+  );
+  console.log("respone", response);
+  const data = await response.json();
+  console.log("dataapi", data);
+  // return data;
+};
+
+function* deleteTimeSlot(values) {
+  console.log("values567", values);
+  try {
+    const { start_time, allocated_day } = values;
+    console.log("deletesagavalue", start_time, allocated_day);
+    const SlotDeleteData = yield call(deleteData, start_time, allocated_day);
+      yield put({ type: DELETE_SLOT_SUCCESS, start_time,allocated_day });
+      console.log("data deleted successfully")
+
+  } catch (error) {
+    const err = error.message;
+    // console.log("errrrrrrrrr",err);
+    yield put({ type: DELETE_SLOT_ERROR, err });
+  }
+}
+
+
 export default () => {
   function* watcher() {
     yield takeLatest(GET_ALLSLOT_REQUEST, getAllSlot);
     yield takeLatest(GET_DATEDATA_REQUEST, getDateDataList);
     yield takeLatest(SAVEWEEKLYSLOT_REQUEST, addWeeklySlots);
+    yield takeLatest(DELETE_SLOT_REQUEST,deleteTimeSlot)
   }
   return { watcher };
 };
