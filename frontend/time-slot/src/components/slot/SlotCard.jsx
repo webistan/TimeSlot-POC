@@ -211,8 +211,6 @@ const timeSlotJson={
 
 const mapStateToProps = (state) => ({
   slotList: state.slotReducer.slotList,
-
-
 });
 
 const mapDispatchToProps = {

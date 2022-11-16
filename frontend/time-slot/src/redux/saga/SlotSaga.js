@@ -12,7 +12,7 @@ import {
   SAVEWEEKLYSLOT_SUCCESS,
   SAVEWEEKLYSLOT_ERROR,
 } from "../constant/SlotConstant";
- const apigeturl=process.env.REACT_APP_API_URL
+const apigeturl = process.env.REACT_APP_API_URL;
 // const apigeturl = "http://demo.webuters.com:8100/api";
 
 const getData = async (start_date, end_date) => {
@@ -117,18 +117,18 @@ function* getAllSlot(values) {
 function* getDateDataList(values) {
   console.log("values567", values);
   try {
-    const {start_date,end_date}=values
-  //  const start_date= start_datee.split("-").reverse().join("-");
-  //  const end_date= end_datee.split("-").reverse().join("-");
-   console.log("start_date23",start_date,end_date)
-    if(start_date && end_date===''||undefined){
-return;
-    }else{
+    const { start_date, end_date } = values;
+    //  const start_date= start_datee.split("-").reverse().join("-");
+    //  const end_date= end_datee.split("-").reverse().join("-");
+    console.log("start_date23", start_date, end_date);
+    if ((start_date && end_date === "") || undefined) {
+      return;
+    } else {
       const allSlotDateData = yield call(getData, start_date, end_date);
       console.log("allSlotDateData", allSlotDateData);
       yield put({ type: GET_DATEDATA_SUCCESS, allSlotDateData });
     }
-    
+
     // let allSlotDateData = {
     //   status: 200,
 
@@ -146,7 +146,6 @@ return;
     //     ],
     //   },
     // };
-  
   } catch (error) {
     const err = error.message;
     // console.log("errrrrrrrrr",err);
@@ -154,12 +153,55 @@ return;
   }
 }
 
-function* addWeeklySlots(data) {
-  console.log("values5679", data);
+function* addWeeklySlots(values) {
+  console.log("values5679", values);
+  const { data } = values;
+  let slot = data.slots;
+
+  let datafiltered = Object.entries(slot).filter((o) => o !== "");
+  console.log("datafiltered", datafiltered);
+
+  const filterValue = datafiltered.filter(
+    (value) => Object.keys(value[1]).length !== 0
+  );
+  let arr = [];
+  filterValue.map((item) => {
+    arr.push(item[1].filter((value) => !value.id));
+  });
+  console.log("arr456", arr);
+  const newdata = arr.filter((val) => val.length !== 0);
+  console.log("newdata", newdata);
+
+
+let obj={}
+ 
+ newdata.map((value)=>{
+  console.log("datkey",value)
+  value.map((val)=>{
+    console.log("val67",val.allocated_day)
+          obj={
+    "start_date": data.start_date,
+
+    "end_date": data.end_date,
+    "slots": {
+
+      [daySlot]: newdata,
+  }
+
+  }
+
+  })
+
+ })
+  // console.log("datkey",dayKey)
+
+  
+  // console.log("obj567",obj)
+
   try {
     yield put({ type: SAVEWEEKLYSLOT_SUCCESS });
     console.log("data saved successfully");
-    yield call(getDateDataList, data);
+    // yield call(getDateDataList, data);
   } catch (error) {
     const err = error.message;
     console.log("errrrrrrrrr", err);

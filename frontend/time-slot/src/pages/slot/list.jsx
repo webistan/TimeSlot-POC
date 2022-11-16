@@ -51,34 +51,34 @@ const SlotList = (props) => {
  
 
  const saveSlots=()=>{
-let data={
+// let data={
 
-  "start_date": "14-11-2022",
+//   "start_date": "14-11-2022",
 
-  "end_date": "05-12-2022",
+//   "end_date": "05-12-2022",
 
-  "slots": {
+//   "slots": {
 
-      "Tuesday": [{
+//       "Tuesday": [{
 
-          "slot_time": "02:30PM",
+//           "slot_time": "02:30PM",
 
-          "slots": 10
+//           "slots": 10
 
-      }],
+//       }],
 
-       "Monday": [{
+//        "Monday": [{
 
-          "slot_time": "09:30AM",
+//           "slot_time": "09:30AM",
 
-          "slots": 10
+//           "slots": 10
 
-      }]
+//       }]
 
-  }
+//   }
 
-}
-addWeeklySlot(data)
+// }
+addWeeklySlot(slotList)
  }
   
 
