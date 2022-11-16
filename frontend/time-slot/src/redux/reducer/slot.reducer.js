@@ -1,11 +1,13 @@
 import { GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, DELETE_SLOT_SUCCESS, GET_ALLSLOT_SUCCESS,ADDSLOT_REQUEST, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS } from "../constant/SlotConstant";
 
+
+
 const initialState = {
     error: "",
     loading: false,
     slotList: {},
-    startDate:'2022-11-09',
-    endDate:'2022-11-26',
+    start_date:'',
+    end_date:'',
     weeklySlotsData: {}
     // slotDateList:{},
   };
@@ -18,10 +20,14 @@ const initialState = {
           loading: true,
         };
       case GET_ALLSLOT_SUCCESS:
+        console.log("sloyda",action.allSlotData.start_date)
         return {
           ...state,
           loading: false,
           slotList: action.allSlotData,
+          start_date:action.allSlotData.start_date,
+          end_date:action.allSlotData.end_date,
+
         };
       case GET_ALLSLOT_ERROR:
         return {
@@ -38,6 +44,8 @@ const initialState = {
             ...state,
             loading: false,
             slotList: action.allSlotDateData,
+            start_date:action.allSlotDateData.start_date,
+          end_date:action.allSlotDateData.end_date,
           };
         case GET_DATEDATA_ERROR:
           return {

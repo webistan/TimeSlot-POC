@@ -37,6 +37,9 @@ function* getAllSlot(values) {
   try {
     const { data } = values;
     const { start_date, end_date } = data;
+
+    console.log("datefirst",start_date,end_date)
+
     console.log("data1", start_date, end_date);
     let allSlotData = yield call(getData, start_date, end_date);
     console.log("allslotData", allSlotData);
@@ -101,6 +104,27 @@ async function createFinalJson (newdata) {
     throw error
   }
 }
+
+const postData=async(finalObject)=>{
+  console.log("postFinalObject",finalObject)
+  try {
+    const response = await fetch(`${apigeturl}/schedules`,{
+      method:'POST',
+      body: JSON.stringify(finalObject),
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+  console.log("responePost", response);
+  const data = await response.json();
+  console.log("dataapi", data);
+  return data;
+  } catch (error) {
+    throw error
+  }
+ 
+}
+
+
 function* addWeeklySlots(values) {
   console.log("values5679", values);
   const { data } = values;
@@ -122,33 +146,11 @@ function* addWeeklySlots(values) {
 
 
   let finalObject = yield call(createFinalJson, newdata)
-  console.log('finalObj are:: ',finalObject)
-
-// let obj={}
- 
-//  newdata.map((value)=>{
-//   console.log("datkey",value)
-//   value.map((val)=>{
-//     console.log("val67",val.allocated_day)
-//           obj={
-//     "start_date": data.start_date,
-
-//     "end_date": data.end_date,
-//     "slots": {
-
-//       [val.allocated_day]: val,
-//   }
-
-//   }
-
-//   })
-
-//  })
-  
-   
+  console.log('finalObj are:: ',finalObject)   
 
   try {
-    yield put({ type: SAVEWEEKLYSLOT_SUCCESS });
+    const saveData = yield call(postData,finalObject);
+    yield put({ type: SAVEWEEKLYSLOT_SUCCESS,saveData });
     console.log("data saved successfully");
     // yield call(getDateDataList, data);
   } catch (error) {
@@ -161,7 +163,7 @@ function* addWeeklySlots(values) {
 const deleteData = async (start_time, allocated_day) => {
   console.log("startdate", start_time, allocated_day);
 // const  start_timee=moment(start_time,'HH:mm:ss').format('hh:mm A')
-  const response = await fetch(`http://demo.webuters.com:8100/api/schedules/destroy?start_time=${start_time}&allocated_day=${allocated_day}`,{
+  const response = await fetch(`${apigeturl}/schedules/destroy?start_time=${start_time}&allocated_day=${allocated_day}`,{
       method:'DELETE',
        
     }
