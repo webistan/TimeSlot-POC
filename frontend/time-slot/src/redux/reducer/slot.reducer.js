@@ -1,9 +1,11 @@
-import { ADDSLOT_REQUEST, DELETE_SLOT_SUCCESS, GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, GET_ALLSLOT_SUCCESS, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS } from "../constant/SlotConstant";
+import { ADDSLOT_REQUEST, DELETE_SLOT_SUCCESS, GET_ALLSLOT_ERROR, GET_ALLSLOT_REQUEST, GET_ALLSLOT_SUCCESS, GET_DATEDATA_ERROR, GET_DATEDATA_REQUEST, GET_DATEDATA_SUCCESS, SAVEWEEKLYSLOT_ERROR, SAVEWEEKLYSLOT_REQUEST, SAVEWEEKLYSLOT_SUCCESS } from "../constant/SlotConstant";
 
 const initialState = {
     error: "",
     loading: false,
-    slotList: {},
+    slotList: {
+
+    },
     start_date:'',
     end_date:'',
     weeklySlotsData: {}
@@ -31,42 +33,57 @@ const initialState = {
           loading: false,
           error: action.err,
         };
-        case GET_DATEDATA_REQUEST:
+      case GET_DATEDATA_REQUEST:
           return {
             ...state,
             loading: true,
           };
-        case GET_DATEDATA_SUCCESS:
+      case GET_DATEDATA_SUCCESS:
           return {
             ...state,
             loading: false,
             slotList: action.allSlotDateData,
             start_date:action.allSlotDateData.start_date,
-          end_date:action.allSlotDateData.end_date,
+            end_date:action.allSlotDateData.end_date,
           };
-        case GET_DATEDATA_ERROR:
+      case GET_DATEDATA_ERROR:
           return {
             loading: false,
             error: action.err,
-          };
-     
-          case ADDSLOT_REQUEST:
-
-        return {
-
-          ...state,
-
-          //loading: true,
-
-          slotList: action.data,
-
-          //  count: initialState.count + 1
-
         };
+
+        case SAVEWEEKLYSLOT_REQUEST:
+          return {
+            ...state,
+            loading: true,
+          };
+      case SAVEWEEKLYSLOT_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+          };
+      case SAVEWEEKLYSLOT_ERROR:
+          return {
+            loading: false,
+            error: action.err,
+            slotList: action.data,
+            start_date: action.data.start_date,
+            end_date: action.data.end_date
+        };
+     
+        case ADDSLOT_REQUEST:
+
+          return {
+            ...state,
+            //loading: true,
+            slotList: action.data,
+            error: ""
+            //  count: initialState.count + 1
+          };
         case  DELETE_SLOT_SUCCESS:
-      return {
-        ...state,
-      };
+        return {
+          ...state,
+        };
       default:
         return state;
     }

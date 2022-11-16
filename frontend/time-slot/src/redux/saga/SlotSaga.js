@@ -130,8 +130,8 @@ function* addWeeklySlots(values) {
   const { data } = values;
   let slot = data.slots;
   let { start_date, end_date } = data
-  start_date =  start_date.split("-").reverse().join("-");
-  end_date =  end_date.split("-").reverse().join("-");
+  // start_date =  start_date.split("-").reverse().join("-");
+  // end_date =  end_date.split("-").reverse().join("-");
 
   console.log('end_date areeEE:: , ',end_date)
   let datafiltered = Object.entries(slot).filter((o) => o !== "");
@@ -148,25 +148,33 @@ function* addWeeklySlots(values) {
   const newdata = arr.filter((val) => val.length !== 0);
   console.log("newdata", newdata);
 
+  if(newdata && newdata.length === 0){
+    let err = "Please Add Slot!"
+    yield put({ type: SAVEWEEKLYSLOT_ERROR, err, data });
+  }else{
+    try {
+      let finalObject = yield call(createFinalJson, newdata, start_date, end_date)
+      console.log('finalObj are:: ',finalObject) 
 
-  let finalObject = yield call(createFinalJson, newdata, start_date, end_date)
-  console.log('finalObj are:: ',finalObject)   
-
-  try {
-    const saveData = yield call(postData,finalObject);
-    yield put({ type: SAVEWEEKLYSLOT_SUCCESS,saveData });
-    console.log("data saved successfully");
-    let data = {
-      start_date: start_date,
-      end_date: end_date
+      const saveData = yield call(postData,finalObject);
+      yield put({ type: SAVEWEEKLYSLOT_SUCCESS,saveData });
+      console.log("data saved successfully");
+      let data = {
+        start_date: start_date,
+        end_date: end_date
+      }
+      //yield call(getAllSlot, data);
+      yield put({ type: GET_ALLSLOT_REQUEST, data })
+    } catch (error) {
+      const err = error.message;
+      console.log("errrrrrrrrr", err);
+      yield put({ type: SAVEWEEKLYSLOT_ERROR, err });
     }
-    //yield call(getAllSlot, data);
-    yield put({ type: GET_ALLSLOT_REQUEST, data })
-  } catch (error) {
-    const err = error.message;
-    console.log("errrrrrrrrr", err);
-    yield put({ type: SAVEWEEKLYSLOT_ERROR, err });
   }
+
+    
+
+  
 }
 
 const deleteData = async (start_time, allocated_day) => {

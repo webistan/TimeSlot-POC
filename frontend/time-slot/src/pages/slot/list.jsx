@@ -1,3 +1,4 @@
+import { CircleLoader, ClipLoader, DotLoader, FadeLoader, SyncLoader } from "react-spinners";
 import React, { createContext, useEffect, useState } from "react";
 import {
   addWeeklySlot,
@@ -51,9 +52,27 @@ const SlotList = (props) => {
   const saveSlots = () => {
     addWeeklySlot(slotList);
   };
+  console.log('error are:: ',error)
+  console.log('slotList are:: ',slotList)
+  console.log('start_date::',start_date)
 
   return (
     <>
+    
+    { 
+      loading ?
+      <div className="loader">
+        <FadeLoader
+          color="#ff4eb2"
+          loading={loading}
+          // cssOverride={override}
+          size={150}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+      : null
+    }
       <div className="container">
         <div className="wt-filter">
           <h2>Manage Schedule</h2>
@@ -78,6 +97,8 @@ const SlotList = (props) => {
         </div>
         <div className="wt-timeslots-list">
           <h3>Timeslot</h3>
+
+          <p>{error}</p>
           {/* <SlotCard/> */}
 
           {slots &&

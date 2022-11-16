@@ -39,7 +39,7 @@ function SlotCard(props) {
 
   // const [popUpOpen, setPopUpOpen] = useState(false);
 //  console.log("props", props.keys[1]);
-console.log("slotList", slotList);
+//console.log("slotList", slotList);
 
   const val = props.keys[1].map((value, idx) => {
     //console.log("value098", value.slot_time);
@@ -112,8 +112,8 @@ console.log("slotList", slotList);
       let newJsonData = JSON.parse(JSON.stringify(slotList));
       console.log("newJsonData", newJsonData);
 
-      newJsonData["start_date"] = "20-09-2022";
-      newJsonData["end_date"] = "20-11-2022";
+      // newJsonData["start_date"] = "20-09-2022";
+      // newJsonData["end_date"] = "20-11-2022";
       newJsonData["slots"][props.keys[0]] = newSlotObj[props.keys[0]];
       console.log("newJsonData123", newJsonData);
       addSlotInObject(newJsonData);
@@ -140,7 +140,7 @@ console.log("slotList", slotList);
     deleteSlotData(start_time,allocated_day, start_date, end_date)
 
   }
-
+  console.log('opena are:::',open)
   return (
     <>
       <div className="wt-card">
@@ -150,8 +150,11 @@ console.log("slotList", slotList);
             {props.keys[0]}
           </div>
           <div className="card-head-right">
-            <button className="button1">Copy Schedule</button>
+            <button  disabled={open === true ? true : false} className="button1" onClick={(e) => {
+                viewModal();
+              }}>Copy Schedule</button>
             <button
+            disabled={open === true ? true : false}
               className="button2"
               onClick={(e) => {
                 viewModal();
