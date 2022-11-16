@@ -1,14 +1,16 @@
 import React, { createContext, useEffect, useState } from "react";
+import {
+  addWeeklySlot,
+  getDateData,
+  getSlotList,
+} from "../../redux/action/SlotAction";
+
+import AddSlotPopUp from "../../components/slot/AddSlotPopUp";
 import SlotCard from "../../components/slot/SlotCard";
 import { connect } from "react-redux";
-import {
-  getSlotList,
-  getDateData,
-  addWeeklySlot,
-} from "../../redux/action/SlotAction";
 // export const MyContext = createContext();
 import moment from "moment";
-import AddSlotPopUp from "../../components/slot/AddSlotPopUp";
+
 const SlotList = (props) => {
   const {
     loading,
@@ -80,8 +82,7 @@ const SlotList = (props) => {
 
           {slots &&
             slots !== undefined &&
-            Object.entries(slots).map(
-              (key) => ( (<SlotCard keys={key} />))
+            Object.entries(slots).map((value,idx) => ( (<SlotCard key={idx} keys={value} />))
             )}
         </div>
         <div style={{ textAlign: "right" }}>

@@ -1,13 +1,12 @@
 import {
+  ADDSLOT_REQUEST,
+  DELETE_SLOT_REQUEST,
   GET_ALLSLOT_REQUEST,
   GET_DATEDATA_REQUEST,
   GET_SAVEWEEKLYSLOT_REQUEST,
   SAVEWEEKLYSLOT_REQUEST,
-  ADDSLOT_REQUEST,
-  DELETE_SLOT_REQUEST,
 } from "../constant/SlotConstant";
 export const getSlotList = (data) => {
-  console.log("getSlot action here");
   return {
     type: GET_ALLSLOT_REQUEST,
     data,
@@ -15,7 +14,6 @@ export const getSlotList = (data) => {
 };
 
 export const getDateData = (start_date, end_date) => {
-  console.log("dat56", start_date, end_date);
   return {
     type: GET_DATEDATA_REQUEST,
     start_date,
@@ -23,7 +21,6 @@ export const getDateData = (start_date, end_date) => {
   };
 };
 export const addWeeklySlot = (data) => {
-  console.log("dat456", data);
   return {
     type: SAVEWEEKLYSLOT_REQUEST,
     data,
@@ -31,7 +28,6 @@ export const addWeeklySlot = (data) => {
 };
 
 export const addSlotInObject = (data) => {
-  console.log("dat456", data);
 
   return {
     type: ADDSLOT_REQUEST,
@@ -40,7 +36,6 @@ export const addSlotInObject = (data) => {
 };
 
 export const deleteSlotData = (start_time,allocated_day) => {
-  console.log("deleteaction", start_time,allocated_day);
   return {
     type: DELETE_SLOT_REQUEST,
    start_time,

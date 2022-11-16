@@ -38,19 +38,19 @@ function SlotCard(props) {
   };
 
   // const [popUpOpen, setPopUpOpen] = useState(false);
-  console.log("props", props.keys[1]);
+ // console.log("props", props.keys[1]);
 
   const val = props.keys[1].map((value, idx) => {
-    console.log("value098", value.slot_time);
+    //console.log("value098", value.slot_time);
     return value;
   });
-  console.log("val123", val);
+  //console.log("val123", val);
 
   const viewModal = () => {
     let currentDayData = props.keys[1].filter(
       (o) => o.allocated_day === props.keys[0]
     );
-    console.log("currentDayData aree:: ", currentDayData);
+    //console.log("currentDayData aree:: ", currentDayData);
     let json = {};
     json[props.keys[0]] = currentDayData;
     setSlotsObj((oldState) => ({
@@ -61,9 +61,9 @@ function SlotCard(props) {
     setOpen(true);
   };
 
-  console.log('slotCopyDay are::: ', slotCopyDay)
+  //console.log('slotCopyDay are::: ', slotCopyDay)
   const viewPopUp = (day) => {
-    console.log("day are:: ", day);
+    //console.log("day are:: ", day);
 
     return (
       <>
@@ -130,10 +130,10 @@ function SlotCard(props) {
     ));
   } 
 
-  console.log("slotList are:: ", slotList);
+  //console.log("slotList are:: ", slotList);
 
   const deleteSlot=(start_time,allocated_day)=>{
-    console.log("delete",start_time,allocated_day)
+    //console.log("delete",start_time,allocated_day)
     deleteSlotData(start_time,allocated_day)
 
   }

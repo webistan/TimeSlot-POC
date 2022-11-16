@@ -137,45 +137,8 @@ function AddSlotPopUp(props) {
               <span className="add-btn" onClick={addSlotInCard}><i className="fa-sharp fa-solid fa-plus" style={{color: '#ff4eb2'}} /></span>
             </div>
             <div className="tag-outer">
-            {/* {
-            slotsObj && slotsObj !==undefined &&
-              Object.entries(slotsObj).map((value,idx)=>(
-                console.log("value@@@@@",value),
-                if(value[1] && value[1].length > 0){
-
-                }
-                
-                <div className="tag" key={idx}>
-                  09:30AM/<span>10Slots</span>
-                  <div className="close-tag">X</div>
-                </div>
-                )
-              )
-              
-              } */}
               {
-                      // for (let x in person) {
-                      //   console.log(x + ": "+ person[x])
-                      // } 
-
-                      // Object.keys(slotsObj).map((value)=> {
-                      //   console.log("value@@@@@",value)
-                      //   if(slotsObj[day].length > 0){
-                      //     console.log('haiii')
-                      //     slotsObj[day].map((item,idx) => {
-                      //       console.log('itemm', item)
-                      //       return (
-                                
-                      //              <div className="tag" key={idx}>
-                      //                 09:30AM/<span>10Slots</span>
-                      //                 <div className="close-tag">X</div>
-                      //               </div>
-                      //       )
-                      //     })
-                      //   }
-                      // })
                       slotsObj[day].map((item,idx) => {
-                        console.log('itemm', item)
                         return (
                             
                                <div className="tag" key={idx}>
@@ -186,22 +149,6 @@ function AddSlotPopUp(props) {
                       })
               }
               
-              {/* <div className="tag">
-                09:30AM/<span>10Slots</span>
-                <div className="close-tag">X</div>
-              </div>
-              <div className="tag">
-                09:30AM/<span>10Slots</span>
-                <div className="close-tag">X</div>
-              </div>
-              <div className="tag">
-                09:30AM/<span>10Slots</span>
-                <div className="close-tag">X</div>
-              </div>
-              <div className="tag">
-                09:30AM/<span>10Slots</span>
-                <div className="close-tag">X</div>
-              </div> */}
             </div>
             <div className="bottom-block">
               <h4>Copy Schedule</h4>
@@ -210,12 +157,11 @@ function AddSlotPopUp(props) {
                   slotList && slotList.slots && Object.keys(slotList.slots).map((value,idx)=> {
                     //console.log('value are:: ',value)
                     if(slotList.slots[value].length > 0){
-                      console.log('data hai :: ',value)
+                      
                       return (
                         <button key={idx} className="btn1 btnhover" disabled>{value}</button>
                       )
                     }else{
-                      console.log('data nhi  hai :: ',value)
                       return (
                         <button key={idx} className="btn1" onClick={(e) => onHandleCopySlot(value)}>{value}</button>
                       )
