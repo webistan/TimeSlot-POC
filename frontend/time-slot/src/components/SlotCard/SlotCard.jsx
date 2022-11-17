@@ -1,8 +1,8 @@
 import React, { createContext, useState } from "react";
+import _, { isEmpty } from "lodash";
 import { addSlotInObject, deleteSlotData } from "../../redux/action/SlotAction";
 
 import AddSlotPopUp from "../PopUp/AddSlotPopUp";
-import _, { isEmpty } from "lodash";
 import { connect } from "react-redux";
 import moment from "moment";
 
@@ -243,11 +243,11 @@ if(json[day] && json[day].length == 0 ){
   };
   return (
     <>
-      <div className="wt-card">
+      <div className="wt-card" data-testid="wt-card">
         <div className="wt-card-head">
           <div className="card-head-left">
             <input type="checkbox" />
-            {props.keys[0]}
+            {props.keys && props.keys[0]}
           </div>
           <div className="card-head-right">
             <button className="button1">Copy Schedule</button>

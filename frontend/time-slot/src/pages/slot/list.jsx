@@ -72,7 +72,7 @@ const SlotList = (props) => {
       <div className="container">
         <div className="wt-filter">
           <h2>Manage Schedule</h2>
-          <div className="filter-block">
+          <div className="filter-block" data-testid="date-picker">
             <input
               type="date"
               id="startDate"
@@ -80,6 +80,7 @@ const SlotList = (props) => {
               onChange={onChangeHandle}
               name="startDate"
               value={start_date}
+              data-testid="startDate"
             />
             <input
               type="date"
@@ -88,6 +89,7 @@ const SlotList = (props) => {
               onChange={onChangeHandle}
               name="endDate"
               value={end_date}
+              data-testid="endDate"
             />
           </div>
         </div>
