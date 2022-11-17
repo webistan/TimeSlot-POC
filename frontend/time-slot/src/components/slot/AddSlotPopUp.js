@@ -7,15 +7,15 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 function AddSlotPopUp(props) {
-    // console.log("pro123",props)
+    
     const { addSlotInObject } = props
     const { addSlotsObj, day, open, onClose, slotsObj, slotList, slotCopyDay, copySolts } = useContext(MyContext);
-    const [dayFlag, setDayFlag] = useState(true)
+    
     const [slotTime, setSlotTime] = useState("")
     const [slotNumber, setSlotNumber] = useState("")
 
-    console.log('slotList are::: ',slotList)
-    console.log('slotCopyDay are:: ',slotCopyDay)
+    // console.log('slotList are::: ',slotList)
+    // console.log('slotCopyDay are:: ',slotCopyDay)
     
     const onClosePopUp = () => {
       let json = {
@@ -35,35 +35,16 @@ function AddSlotPopUp(props) {
       }
       onClose(json)
     }
-    //let slotsObj = {}
-    // if(day && day !== null && day !== "" && day !== undefined && dayFlag){
-    //  // slotsObj[day] = []
-    //   setDayFlag(false)
-    // }
 
     const onChangeSlotTime = (e) => {
-      console.log('onChangeSlotTime heree')
-      console.log('onChangeSlotTime e:: ',e.target.value)
       let timetxt = `${e.target.value}:00`
-      console.log('timetxt e:: ',timetxt)
       setSlotTime(timetxt)
     }
     const onChangeSlotNumber = (e) => {
-      console.log('onChangeSlotNumber heree')
-      console.log('onChangeSlotNumber e:: ',e.target.value)
       setSlotNumber(e.target.value)
     }
 
     const addSlotInCard = (e) => {
-      console.log('slotsObj are:: ',slotsObj)
-      // let arr = slotsObj[day]
-      // arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
-      // let json = {
-      //   [day]: arr
-      // }
-      // addSlotsObj(json)
-
-
       if(!_.isEmpty(slotsObj)){
         let arr = slotsObj[day]
         arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
@@ -79,75 +60,43 @@ function AddSlotPopUp(props) {
         }
         addSlotsObj(json)
       }
-      
-      
     }
 
-    // const onHandleCopySlot = (data) => {
-    //   console.log('copy day name are:: ',data)
+    // const onHandleCopySlot = (copyDay) => {
+    //   console.log('copy day name are:: ',copyDay)
     //   console.log('current day are:: ',day)
+    //   console.log('slotsObj dataaaa::: ',slotsObj[day])
 
+    //   //copySolts({copyDay:copyDay, currentDay:day })
+  
     //   let newJsonData = JSON.parse(JSON.stringify(slotList));
     //   console.log("newJsonData", newJsonData);
-
-
-    //   //newJsonData["start_date"]= "20-09-2022"
-    //   //newJsonData["end_date"]= "20-11-2022"
-
-    //   let cloneCopyData = JSON.parse(JSON.stringify(slotList.slots[day]));
-    //   if(cloneCopyData && cloneCopyData.length > 0){
-    //     console.log('cloneCopyData are:; ',cloneCopyData)
-    //     cloneCopyData.forEach((item) => {
-    //       delete item['id']
-    //       item['allocated_day'] = data
-    //     })
-    //     console.log('cloneCopyData after are:; ',cloneCopyData)
-    //   }
-    //   newJsonData["slots"][data]= cloneCopyData //slotList.slots[day]
-
-    //   console.log("newJsonData after", newJsonData);
-    //   // console.log("newJsonData123", newJsonData);
-    //   addSlotInObject(newJsonData)
-
-    // }
-
-    const onHandleCopySlot = (copyDay) => {
-      console.log('copy day name are:: ',copyDay)
-      console.log('current day are:: ',day)
-      console.log('slotsObj dataaaa::: ',slotsObj[day])
-
-      //copySolts({copyDay:copyDay, currentDay:day })
-  
-      let newJsonData = JSON.parse(JSON.stringify(slotList));
-      console.log("newJsonData", newJsonData);
   
   
      
   
-      let cloneCopyData = JSON.parse(JSON.stringify(slotsObj[day]));
-      if(cloneCopyData && cloneCopyData.length > 0){
-        console.log('cloneCopyData are:; ',cloneCopyData)
-        cloneCopyData.forEach((item) => {
-          delete item['id']
-          item['allocated_day'] = copyDay
-        })
-        console.log('cloneCopyData after are:; ',cloneCopyData)
-      }
-      newJsonData["slots"][copyDay]= cloneCopyData 
+    //   let cloneCopyData = JSON.parse(JSON.stringify(slotsObj[day]));
+    //   if(cloneCopyData && cloneCopyData.length > 0){
+    //     console.log('cloneCopyData are:; ',cloneCopyData)
+    //     cloneCopyData.forEach((item) => {
+    //       delete item['id']
+    //       item['allocated_day'] = copyDay
+    //     })
+    //     console.log('cloneCopyData after are:; ',cloneCopyData)
+    //   }
+    //   newJsonData["slots"][copyDay]= cloneCopyData 
   
-      console.log("newJsonData after", newJsonData);
-      // console.log("newJsonData123", newJsonData);
-      addSlotInObject(newJsonData)
+    //   console.log("newJsonData after", newJsonData);
+    //   // console.log("newJsonData123", newJsonData);
+    //   addSlotInObject(newJsonData)
   
-    }
+    // }
 
     const setCopyDay =  (copyDay) => {
-      console.log('copyDay on click are:: ',copyDay)
-      console.log('copyDay on click are slot copy:: ',slotCopyDay)
       copySolts(copyDay)
     }
 
-    console.log('slotsObj are:: ',slotsObj)
+    // console.log('slotsObj are:: ',slotsObj)
     
   return (
     <div className="modal">
@@ -181,22 +130,6 @@ function AddSlotPopUp(props) {
             <div className="bottom-block">
               <h4>Copy Schedule</h4>
               <div className="days">
-                {/* {
-                  slotList && slotList.slots && Object.keys(slotList.slots).map((value,idx)=> {
-                    //console.log('value are:: ',value)
-                    if(slotList.slots[value].length > 0){
-                      
-                      return (
-                        <button key={idx} className="btn1 btnhover" disabled>{value}</button>
-                      )
-                    }else{
-                      return (
-                        <button key={idx} className="btn1" onClick={(e) => onHandleCopySlot(value)}>{value}</button>
-                      )
-                    }
-                  })
-                } */}
-
                 {
                   slotCopyDay && slotCopyDay.map((item,idx) => {
                     return(
@@ -208,13 +141,6 @@ function AddSlotPopUp(props) {
                     )
                   })
                 }
-                {/* <button className="btn1">S</button>
-                <button className="btn1">M</button>
-                <button className="btn1">T</button>
-                <button className="btn1">W</button>
-                <button className="btn1">Th</button>
-                <button className="btn1">F</button>
-                <button className="btn1">S</button> */}
               </div>
             </div>
             <button className={'modal-btn ' + (!_.isEmpty(slotsObj) ? 'button2' : 'button-dis')} disabled={_.isEmpty(slotsObj) ? true : false} onClick={addSlot}>+ Add Slot</button>

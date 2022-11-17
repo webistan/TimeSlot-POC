@@ -3,7 +3,6 @@ import {
   DELETE_SLOT_REQUEST,
   GET_ALLSLOT_REQUEST,
   GET_DATEDATA_REQUEST,
-  GET_SAVEWEEKLYSLOT_REQUEST,
   SAVEWEEKLYSLOT_REQUEST,
 } from "../constant/SlotConstant";
 export const getSlotList = (data) => {

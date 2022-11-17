@@ -9,8 +9,6 @@ const initialState = {
     addSlotArr: [],
     start_date:'',
     end_date:'',
-    weeklySlotsData: {}
-    // slotDateList:{},
   };
 
   const slot = (state = initialState, action) => {

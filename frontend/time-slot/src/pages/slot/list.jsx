@@ -1,15 +1,13 @@
-import { CircleLoader, ClipLoader, DotLoader, FadeLoader, SyncLoader } from "react-spinners";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   addWeeklySlot,
   getDateData,
   getSlotList,
 } from "../../redux/action/SlotAction";
 
-import AddSlotPopUp from "../../components/slot/AddSlotPopUp";
+import { FadeLoader } from "react-spinners";
 import SlotCard from "../../components/slot/SlotCard";
 import { connect } from "react-redux";
-// export const MyContext = createContext();
 import moment from "moment";
 
 const SlotList = (props) => {
@@ -52,9 +50,7 @@ const SlotList = (props) => {
   const saveSlots = () => {
     addWeeklySlot(slotList);
   };
-  console.log('error are:: ',error)
-  console.log('slotList are:: ',slotList)
-  console.log('start_date::',start_date)
+
 
   return (
     <>
@@ -132,4 +128,3 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotList);
 
-//  export default SlotList;
