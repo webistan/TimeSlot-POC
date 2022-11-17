@@ -2,81 +2,75 @@ import React, { createContext, useState } from "react";
 import { addSlotInObject, deleteSlotData } from "../../redux/action/SlotAction";
 
 import AddSlotPopUp from "../PopUp/AddSlotPopUp";
-import _ from 'lodash'
+import _, { isEmpty } from "lodash";
 import { connect } from "react-redux";
 import moment from "moment";
 
 export const MyContext = createContext();
 
 function SlotCard(props) {
-  const { slotList, addSlotInObject ,deleteSlotData} = props;
+  const { slotList, addSlotInObject, deleteSlotData } = props;
   const [open, setOpen] = useState(false);
   const [slotsObj, setSlotsObj] = useState({});
   const [slotCopyDay, setSlotCopyDay] = useState([
     {
-      'day': 'Sunday',
-      'showDay': 'S',
-      'isSelected': false,
-      'copyDay': false
+      day: "Sunday",
+      showDay: "S",
+      isSelected: false,
+      copyDay: false,
     },
     {
-      'day': 'Monday',
-      'showDay': 'M',
-      'isSelected': false,
-      'copyDay': false
+      day: "Monday",
+      showDay: "M",
+      isSelected: false,
+      copyDay: false,
     },
     {
-      'day': 'Tuesday',
-      'showDay': 'T',
-      'isSelected': false,
-      'copyDay': false
+      day: "Tuesday",
+      showDay: "T",
+      isSelected: false,
+      copyDay: false,
     },
     {
-      'day': 'Wednesday',
-      'showDay': 'W',
-      'isSelected': false,
-      'copyDay': false
+      day: "Wednesday",
+      showDay: "W",
+      isSelected: false,
+      copyDay: false,
     },
     {
-      'day': 'Thursday',
-      'showDay': 'Th',
-      'isSelected': false,
-      'copyDay': false
+      day: "Thursday",
+      showDay: "Th",
+      isSelected: false,
+      copyDay: false,
     },
     {
-      'day': 'Friday',
-      'showDay': 'F',
-      'isSelected': false,
-      'copyDay': false
+      day: "Friday",
+      showDay: "F",
+      isSelected: false,
+      copyDay: false,
     },
     {
-      'day': 'Saturday',
-      'showDay': 'Sat',
-      'isSelected': false,
-      'copyDay': false
-    }
+      day: "Saturday",
+      showDay: "Sat",
+      isSelected: false,
+      copyDay: false,
+    },
   ]);
 
 
-
-  const val = props.keys[1].map((value, idx) => {
-    return value;
-  });
-
-
   const viewModal = () => {
-    let emptyObj = {}
+    let emptyObj = {};
     setSlotsObj((oldState) => ({
       ...emptyObj,
     }));
 
-    let copyArr = JSON.parse(JSON.stringify(slotCopyDay)); 
-    copyArr.forEach((item,idx) => {
-      if(item.day === props.keys[0]){
-        item['isSelected'] = true
+    let copyArr = JSON.parse(JSON.stringify(slotCopyDay));
+    copyArr.forEach((item, idx) => {
+      if (item.day === props.keys[0]) {
+        item["isSelected"] = true;
       }
-    })
-    setSlotCopyDay(copyArr)
+    });
+    setSlotCopyDay(copyArr);
 
     setOpen(true);
   };
@@ -85,7 +79,17 @@ function SlotCard(props) {
     return (
       <>
         <MyContext.Provider
-          value={{ addSlotsObj, day, open, onClose, slotsObj, slotList, slotCopyDay, copySolts }}
+          value={{
+            addSlotsObj,
+            day,
+            open,
+            onClose,
+            slotsObj,
+            slotList,
+            slotCopyDay,
+            copySolts,
+            removeSlotsObj,
+          }}
         >
           <AddSlotPopUp />
         </MyContext.Provider>
@@ -94,48 +98,85 @@ function SlotCard(props) {
   };
 
   const addSlotsObj = (data) => {
+    console.log("addslotdata", data);
     setSlotsObj((oldState) => ({
       ...data,
     }));
   };
+  const removeSlotsObj = (data) => {
+    let idx = data.index;
+    let day = data.item.allocated_day;
+    console.log("day1", day, idx);
 
-  const copySlotDataInFinalObj = async (newJsonData, slotCopyDay, newSlotObj) => {
-    let allUpdatedData = JSON.parse(JSON.stringify(newJsonData))
-    let selectCopyDay = _.filter(slotCopyDay, { copyDay: true })
+    let copySlotObj = JSON.parse(JSON.stringify(slotsObj));
+    
+    let json = {};
+    copySlotObj &&
+      Object.keys(copySlotObj).forEach(function (key) {
+        copySlotObj[key].map((item, index) => {
+          if (idx == index) {
+            copySlotObj[key].splice(index, 1);
+          }
+          let jsonSlot = {
+            [day]: copySlotObj[key] ? copySlotObj[key] : [],
+          };
+          Object.assign(json, jsonSlot);
+        });
+      });
+if(json[day] && json[day].length == 0 ){
+  let emptyObj={}
+  setSlotsObj((oldState) => ({
+    ...emptyObj,
+  }));
+}else{
+  setSlotsObj((oldState) => ({
+    ...json,
+  }));
+}
 
-    let obj = {}
-    if(selectCopyDay && selectCopyDay.length > 0){
-        _.forEach(selectCopyDay, async function(item,idx) {
-          let arr = []
-          _.forEach(newSlotObj[props.keys[0]], async function(value, index){
-            arr.push(
-              {
-                start_time: value.start_time,
-                allocated_slot: value.allocated_slot,
-                allocated_day: item.day
-              }
-            )
-            obj[item.day] = arr
-          })
-            
-        })
+  
+  };
 
-        if(!_.isEmpty(obj)){
-          Object.keys(obj).map((value) => {
-            if(allUpdatedData['slots'][value] && allUpdatedData['slots'][value].length > 0){
-              let newArr = allUpdatedData['slots'][value]
-              const merged =  [...newArr, ...obj[value]]
-              allUpdatedData['slots'][value] = merged
-            }else{
-              allUpdatedData['slots'][value] = obj[value]
-            }
-          })
-        }
+  const copySlotDataInFinalObj = async (
+    newJsonData,
+    slotCopyDay,
+    newSlotObj
+  ) => {
+    let allUpdatedData = JSON.parse(JSON.stringify(newJsonData));
+    let selectCopyDay = _.filter(slotCopyDay, { copyDay: true });
+
+    let obj = {};
+    if (selectCopyDay && selectCopyDay.length > 0) {
+      _.forEach(selectCopyDay, async function (item, idx) {
+        let arr = [];
+        _.forEach(newSlotObj[props.keys[0]], async function (value, index) {
+          arr.push({
+            start_time: value.start_time,
+            allocated_slot: value.allocated_slot,
+            allocated_day: item.day,
+          });
+          obj[item.day] = arr;
+        });
+      });
+
+      if (!_.isEmpty(obj)) {
+        Object.keys(obj).map((value) => {
+          if (
+            allUpdatedData["slots"][value] &&
+            allUpdatedData["slots"][value].length > 0
+          ) {
+            let newArr = allUpdatedData["slots"][value];
+            const merged = [...newArr, ...obj[value]];
+            allUpdatedData["slots"][value] = merged;
+          } else {
+            allUpdatedData["slots"][value] = obj[value];
+          }
+        });
+      }
     }
 
-    return allUpdatedData
-
-  }
+    return allUpdatedData;
+  };
 
   const onClose = async (data) => {
     console.log("dataa areee for popup close:: ", data);
@@ -156,48 +197,50 @@ function SlotCard(props) {
       let newJsonData = JSON.parse(JSON.stringify(slotList));
       //console.log("newJsonData", JSON.stringify(newJsonData));
 
-
-      let addSlotArr = JSON.parse(JSON.stringify(newSlotObj[data.selectedDay]))
+      let addSlotArr = JSON.parse(JSON.stringify(newSlotObj[data.selectedDay]));
       //console.log('addSlotArr are:::: ',JSON.stringify(addSlotArr))
-      
-      let destinationSlotArr = JSON.parse(JSON.stringify(newJsonData["slots"][props.keys[0]]))
+
+      let destinationSlotArr = JSON.parse(
+        JSON.stringify(newJsonData["slots"][props.keys[0]])
+      );
       //console.log('destinationSlotArr are:::: ',destinationSlotArr)
 
       // Merge arrays
-      const merged =  [...destinationSlotArr, ...addSlotArr]
+      const merged = [...destinationSlotArr, ...addSlotArr];
 
       //console.log('merged are:: ',merged)
 
-      newJsonData.slots[props.keys[0]] = merged
+      newJsonData.slots[props.keys[0]] = merged;
       //console.log('slotCopyDay data are::: ', JSON.stringify(slotCopyDay))
 
       //console.log('final newJsonData are:: ',JSON.stringify(newJsonData))
 
-      let finalObj = await copySlotDataInFinalObj(newJsonData, slotCopyDay, newSlotObj) 
-      console.log('finalObj areeeeeeee@@@@@@@:: ',finalObj)
-      console.log('doneeee')
+      let finalObj = await copySlotDataInFinalObj(
+        newJsonData,
+        slotCopyDay,
+        newSlotObj
+      );
+      console.log("finalObj areeeeeeee@@@@@@@:: ", finalObj);
+      console.log("doneeee");
       addSlotInObject(finalObj);
     }
   };
   const copySolts = (day) => {
-    let copyArr = JSON.parse(JSON.stringify(slotCopyDay)); 
-    copyArr.forEach((item,idx) => {
-      if(item.day === day){
-        item['isSelected'] = true
-        item['copyDay'] = true
+    let copyArr = JSON.parse(JSON.stringify(slotCopyDay));
+    copyArr.forEach((item, idx) => {
+      if (item.day === day) {
+        item["isSelected"] = true;
+        item["copyDay"] = true;
       }
-    })
-    setSlotCopyDay(copyArr)
-  } 
+    });
+    setSlotCopyDay(copyArr);
+  };
 
-
-
-  const deleteSlot=(start_time,allocated_day)=>{
-    let start_date = slotList && slotList.start_date
-    let end_date = slotList && slotList.end_date
-    deleteSlotData(start_time,allocated_day, start_date, end_date)
-
-  }
+  const deleteSlot = (start_time, allocated_day) => {
+    let start_date = slotList && slotList.start_date;
+    let end_date = slotList && slotList.end_date;
+    deleteSlotData(start_time, allocated_day, start_date, end_date);
+  };
   return (
     <>
       <div className="wt-card">
@@ -209,7 +252,7 @@ function SlotCard(props) {
           <div className="card-head-right">
             <button className="button1">Copy Schedule</button>
             <button
-            disabled={open === true ? true : false}
+              disabled={open === true ? true : false}
               className="button2"
               onClick={(e) => {
                 viewModal();
@@ -237,16 +280,16 @@ function SlotCard(props) {
                     className="w-90"
                     defaultValue={value.allocated_slot}
                   />
-                  {value && value.id ?
-                  <span
-                    className="delete-btn"
-                    onClick={() =>
-                      deleteSlot(value.start_time, value.allocated_day)
-                    }
-                  >
-                     <i className="fa-sharp fa-solid fa-trash" /> 
-                  </span>
-                  : null}
+                  {value && value.id ? (
+                    <span
+                      className="delete-btn"
+                      onClick={() =>
+                        deleteSlot(value.start_time, value.allocated_day)
+                      }
+                    >
+                      <i className="fa-sharp fa-solid fa-trash" />
+                    </span>
+                  ) : null}
                 </div>
               </div>
             ))}
@@ -273,7 +316,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   addSlotInObject,
-  deleteSlotData
+  deleteSlotData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotCard);
