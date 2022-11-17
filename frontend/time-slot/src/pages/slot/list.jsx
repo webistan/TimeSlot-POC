@@ -6,7 +6,7 @@ import {
 } from "../../redux/action/SlotAction";
 
 import { FadeLoader } from "react-spinners";
-import SlotCard from "../../components/slot/SlotCard";
+import SlotCard from "../../components/SlotCard/SlotCard";
 import { connect } from "react-redux";
 import moment from "moment";
 

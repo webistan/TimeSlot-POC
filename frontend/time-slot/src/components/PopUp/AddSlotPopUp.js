@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import { MyContext } from "./SlotCard"
+import { MyContext } from "../SlotCard/SlotCard"
 import _ from 'lodash'
 import { addSlotInObject } from '../../redux/action/SlotAction'
 import { connect } from "react-redux";

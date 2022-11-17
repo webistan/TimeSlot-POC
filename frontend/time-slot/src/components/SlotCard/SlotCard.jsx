@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { addSlotInObject, deleteSlotData } from "../../redux/action/SlotAction";
 
-import AddSlotPopUp from "./AddSlotPopUp";
+import AddSlotPopUp from "../PopUp/AddSlotPopUp";
 import _ from 'lodash'
 import { connect } from "react-redux";
 import moment from "moment";
