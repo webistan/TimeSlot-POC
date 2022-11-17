@@ -31,23 +31,29 @@ class ScheduleController extends Controller
     {
         $startDate = Carbon::now()->firstOfMonth()->format('Y-m-d');
         $endDate = Carbon::now()->lastOfMonth()->format('Y-m-d');
+        $requestData = array();
 
-        $requestData['start_date'] = $request->query('start_date');
-        $requestData['end_date'] = $request->query('end_date');
+        if($request->query('start_date') != null || $request->query('end_date') != null){
 
-        $isNotvalidations = $this->common->getValidation($requestData, [
-            'start_date' => 'required_with:end_date|date_format:Y-m-d',
-            'end_date' => 'required_with:start_date|date_format:Y-m-d|after_or_equal:start_date',
-        ]);
+            $requestData['start_date'] = $request->query('start_date');
+            $requestData['end_date'] = $request->query('end_date');
 
-        if($isNotvalidations){
-            return response()->json(['status'=>400,'error'=>ERROR_400,'error_description'=>$isNotvalidations])->setStatusCode(400);
-        }else{
-            $startDate =  Carbon::parse($requestData['start_date'])->format('Y-m-d');;
-            $endDate =  Carbon::parse($requestData['end_date'])->format('Y-m-d');
+            $isNotvalidations = $this->common->getValidation($requestData, [
+                'start_date' => 'required_with:end_date|date_format:Y-m-d',
+                'end_date' => 'required_with:start_date|date_format:Y-m-d|after_or_equal:start_date',
+            ]);
+
+            if($isNotvalidations){
+                return response()->json(['status'=>400,'error'=>ERROR_400,'error_description'=>$isNotvalidations])->setStatusCode(400);
+            }
+
+            $startDate =  $requestData['start_date'];
+            $end_date =  $requestData['end_date'];
         }
 
+
         $getScheduleData = $this->scheduleRepo->getSchedules($startDate,$endDate);
+
         if($getScheduleData){
             return response()->json(['status'=>200,'slots'=>$getScheduleData]);
         }else{
@@ -77,11 +83,16 @@ class ScheduleController extends Controller
         }
 
         $saveData = $this->scheduleRepo->saveSlotsData($request);
+
         if($saveData){
             return response()->json(['status'=>200,'msg'=>'Schedule Saved successfully']);
         }else{
             return response()->json(['status'=>422,'error'=>ERROR_422,'error_description'=>ERROR_422_MSG])->setStatusCode(422);
         }
+    }
+
+    public function show($id){
+        //to show the details of schedule
     }
 
     /**
@@ -94,8 +105,9 @@ class ScheduleController extends Controller
     // delete all record from database according to start time and allocatted day
     public function destroy(Request $request)
     {
-        $requestData['start_time'] = Carbon::parse($request->query('start_time'))->format('H:i:s');
+        $requestData['start_time'] = $request->query('start_time');
         $requestData['allocated_day'] = $request->query('allocated_day');
+
         $weekdays = Config::get('schedule.weekdays');
         $weekdays = implode(",",$weekdays);
 
@@ -109,6 +121,7 @@ class ScheduleController extends Controller
         }
 
         $deleted = $this->scheduleRepo->deleteSlots($requestData['start_time'],$requestData['allocated_day']);
+
         if($deleted){
             return response()->json(['status'=>200,'message'=>'slots deleted successfully.']);
         }else{

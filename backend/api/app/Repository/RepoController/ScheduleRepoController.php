@@ -67,7 +67,7 @@ class ScheduleRepoController implements ScheduleRepo{
     }
 
     public function deleteSlots($startTime,$day){
-        $startTime = Carbon::parse($startTime)->format('H:i');
+        $startTime = Carbon::parse($startTime)->format('H:i:s');
         return Schedule::where('start_time',$startTime)->where('allocated_day',$day)->delete();
     }
 }
