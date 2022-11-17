@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 
 import { MyContext } from "./SlotCard"
+import _ from 'lodash'
 import { addSlotInObject } from '../../redux/action/SlotAction'
 import { connect } from "react-redux";
 import moment from "moment";
@@ -14,11 +15,13 @@ function AddSlotPopUp(props) {
     const [slotNumber, setSlotNumber] = useState("")
 
     console.log('slotList are::: ',slotList)
+    console.log('slotCopyDay are:: ',slotCopyDay)
     
     const onClosePopUp = () => {
       let json = {
         popUpClose: true,
-        addData: false
+        addData: false,
+        selectedDay: day
       }
       onClose(json)
     }
@@ -27,7 +30,8 @@ function AddSlotPopUp(props) {
       let json = {
         popUpClose: true,
         addData: true,
-        obj: slotsObj
+        obj: slotsObj,
+        selectedDay: day
       }
       onClose(json)
     }
@@ -52,12 +56,30 @@ function AddSlotPopUp(props) {
 
     const addSlotInCard = (e) => {
       console.log('slotsObj are:: ',slotsObj)
-      let arr = slotsObj[day]
-      arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
-      let json = {
-        [day]: arr
+      // let arr = slotsObj[day]
+      // arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
+      // let json = {
+      //   [day]: arr
+      // }
+      // addSlotsObj(json)
+
+
+      if(!_.isEmpty(slotsObj)){
+        let arr = slotsObj[day]
+        arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
+        let json = {
+          [day]: arr
+        }
+        addSlotsObj(json)
+      }else{
+        let arr = []
+        arr.push({start_time: slotTime, allocated_slot:slotNumber, allocated_day: day})
+        let json = {
+          [day]: arr
+        }
+        addSlotsObj(json)
       }
-      addSlotsObj(json)
+      
       
     }
 
@@ -119,6 +141,12 @@ function AddSlotPopUp(props) {
   
     }
 
+    const setCopyDay =  (copyDay) => {
+      console.log('copyDay on click are:: ',copyDay)
+      console.log('copyDay on click are slot copy:: ',slotCopyDay)
+      copySolts(copyDay)
+    }
+
     console.log('slotsObj are:: ',slotsObj)
     
   return (
@@ -138,7 +166,7 @@ function AddSlotPopUp(props) {
             </div>
             <div className="tag-outer">
               {
-                      slotsObj[day].map((item,idx) => {
+                      slotsObj && !_.isEmpty(slotsObj) && slotsObj[day].map((item,idx) => {
                         return (
                             
                                <div className="tag" key={idx}>
@@ -153,7 +181,7 @@ function AddSlotPopUp(props) {
             <div className="bottom-block">
               <h4>Copy Schedule</h4>
               <div className="days">
-                {
+                {/* {
                   slotList && slotList.slots && Object.keys(slotList.slots).map((value,idx)=> {
                     //console.log('value are:: ',value)
                     if(slotList.slots[value].length > 0){
@@ -167,6 +195,18 @@ function AddSlotPopUp(props) {
                       )
                     }
                   })
+                } */}
+
+                {
+                  slotCopyDay && slotCopyDay.map((item,idx) => {
+                    return(
+                      <>
+                        <span key={idx}>
+                        <button  className={'btn1 ' + (item.isSelected ? "btnhover " : "")} onClick={(e) => setCopyDay(item.day)}>{item.showDay}</button>
+                        </span>
+                      </>
+                    )
+                  })
                 }
                 {/* <button className="btn1">S</button>
                 <button className="btn1">M</button>
@@ -177,7 +217,7 @@ function AddSlotPopUp(props) {
                 <button className="btn1">S</button> */}
               </div>
             </div>
-            <button className="button2 modal-btn" onClick={addSlot}>+ Add Slot</button>
+            <button className={'modal-btn ' + (!_.isEmpty(slotsObj) ? 'button2' : 'button-dis')} disabled={_.isEmpty(slotsObj) ? true : false} onClick={addSlot}>+ Add Slot</button>
           </div>
         </div>
       </div>

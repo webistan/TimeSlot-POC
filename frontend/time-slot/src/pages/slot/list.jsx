@@ -21,7 +21,7 @@ const SlotList = (props) => {
     start_date,
     end_date,
     getDateData,
-    addWeeklySlot,
+    addWeeklySlot
   } = props;
 
   let slots = slotList && slotList.slots;

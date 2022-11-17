@@ -127,15 +127,16 @@ const postData=async(finalObject)=>{
 
 function* addWeeklySlots(values) {
   console.log("values5679", values);
-  const { data } = values;
+  const { data, addSlotArr } = values;
   let slot = data.slots;
   let { start_date, end_date } = data
+
   // start_date =  start_date.split("-").reverse().join("-");
   // end_date =  end_date.split("-").reverse().join("-");
 
-  console.log('end_date areeEE:: , ',end_date)
+  //console.log('end_date areeEE:: , ',end_date)
   let datafiltered = Object.entries(slot).filter((o) => o !== "");
-  console.log("datafiltered", datafiltered);
+  //console.log("datafiltered", datafiltered);
 
   const filterValue = datafiltered.filter(
     (value) => Object.keys(value[1]).length !== 0
@@ -144,9 +145,9 @@ function* addWeeklySlots(values) {
   filterValue.map((item) => {
     arr.push(item[1].filter((value) => !value.id));
   });
-  console.log("arr456", arr);
+  //console.log("arr456", arr);
   const newdata = arr.filter((val) => val.length !== 0);
-  console.log("newdata", newdata);
+  //console.log("newdata", newdata);
 
   if(newdata && newdata.length === 0){
     let err = "Please Add Slot!"

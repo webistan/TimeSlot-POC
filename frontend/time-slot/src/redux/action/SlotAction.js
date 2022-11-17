@@ -23,7 +23,7 @@ export const getDateData = (start_date, end_date) => {
 export const addWeeklySlot = (data) => {
   return {
     type: SAVEWEEKLYSLOT_REQUEST,
-    data,
+    data
   };
 };
 
@@ -31,7 +31,7 @@ export const addSlotInObject = (data) => {
 
   return {
     type: ADDSLOT_REQUEST,
-    data,
+    data
   };
 };
 

@@ -58,6 +58,17 @@ button {
   background: #ff4eb2;
   color: #fff;
 }
+
+.button-dis {
+  border: 1px solid #c0b5bb;
+  background: #c0b5bb;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 4px;
+  margin-right: 10px;
+  min-width: 123px;
+}
+
 .delete-btn {
   padding: 0 10px;
   height: 40px;
