@@ -19,11 +19,11 @@ const SlotList = (props) => {
     start_date,
     end_date,
     getDateData,
-    addWeeklySlot
+    addWeeklySlot,
   } = props;
 
   let slots = slotList && slotList.slots;
-
+  //***************************** UseEffect **********************************//
   useEffect(() => {
     const start_date = moment().format("YYYY-MM-DD");
     var end_date = moment().format("YYYY-MM-") + moment().daysInMonth();
@@ -35,6 +35,7 @@ const SlotList = (props) => {
     getSlotList(data);
   }, [getSlotList]);
 
+  //***************************** OnChangeHandle Function of Date Picker **********************************//
   const onChangeHandle = async (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -47,28 +48,25 @@ const SlotList = (props) => {
     }
   };
 
+  //***************************** Save Function Of TimeSlots **********************************//
   const saveSlots = () => {
     addWeeklySlot(slotList);
   };
 
-
   return (
     <>
-    
-    { 
-      loading ?
-      <div className="loader">
-        <FadeLoader
-          color="#ff4eb2"
-          loading={loading}
-          // cssOverride={override}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
-      : null
-    }
+      {loading ? (
+        <div className="loader">
+          <FadeLoader
+            color="#ff4eb2"
+            loading={loading}
+            // cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : null}
       <div className="container">
         <div className="wt-filter">
           <h2>Manage Schedule</h2>
@@ -101,8 +99,9 @@ const SlotList = (props) => {
 
           {slots &&
             slots !== undefined &&
-            Object.entries(slots).map((value,idx) => ( (<SlotCard key={idx} keys={value} />))
-            )}
+            Object.entries(slots).map((value, idx) => (
+              <SlotCard key={idx} keys={value} />
+            ))}
         </div>
         <div style={{ textAlign: "right" }}>
           <button className="button2 btn-lg" onClick={() => saveSlots()}>
@@ -114,6 +113,7 @@ const SlotList = (props) => {
   );
 };
 
+//***************************** MapStateToProps Method **********************************//
 const mapStateToProps = (state) => ({
   loading: state.slotReducer.loading,
   error: state.slotReducer.error,
@@ -122,6 +122,7 @@ const mapStateToProps = (state) => ({
   end_date: state.slotReducer.end_date,
 });
 
+//***************************** MapDispatchToProps Method **********************************//
 const mapDispatchToProps = {
   getSlotList,
   getDateData,
@@ -129,4 +130,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotList);
-

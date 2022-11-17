@@ -6,6 +6,7 @@ import { addSlotInObject } from "../../redux/action/SlotAction";
 import { connect } from "react-redux";
 import moment from "moment";
 
+//***************************** AddSlotPopUp Method **********************************//
 function AddSlotPopUp(props) {
   const { addSlotInObject } = props;
   const {
@@ -26,6 +27,8 @@ function AddSlotPopUp(props) {
   console.log("slotList are::: ", slotsObj);
   // console.log('slotCopyDay are:: ',slotCopyDay)
 
+  
+  //***************************** Close PopUp Method **********************************//
   const onClosePopUp = () => {
     let json = {
       popUpClose: true,
@@ -35,6 +38,7 @@ function AddSlotPopUp(props) {
     onClose(json);
   };
 
+  //***************************** AddSlot Button Click Method **********************************//
   const addSlot = () => {
     let json = {
       popUpClose: true,
@@ -53,6 +57,7 @@ function AddSlotPopUp(props) {
     setSlotNumber(e.target.value);
   };
 
+  //***************************** Method Of Adding Slot In PoPUp  **********************************//
   const addSlotInCard = (e) => {
     if (!_.isEmpty(slotsObj)) {
       let arr = slotsObj[day];
@@ -85,6 +90,7 @@ function AddSlotPopUp(props) {
     setSlotTime("");
   };
 
+  //***************************** Method Of Cancel Slots  In PoPUp  **********************************//
   const cancelTimeSlot = (item, idx) => {
     let json = {
       item: item,
@@ -120,6 +126,7 @@ function AddSlotPopUp(props) {
 
   // }
 
+  //***************************** Copy Schedule Method **********************************//
   const setCopyDay = (copyDay) => {
     copySolts(copyDay);
   };
@@ -216,9 +223,10 @@ function AddSlotPopUp(props) {
     </div>
   );
 }
-
+//***************************** MapStateToProps Method **********************************//
 const mapStateToProps = (state) => ({});
 
+//***************************** MapDispatchToProps Method **********************************//
 const mapDispatchToProps = {
   addSlotInObject,
 };
