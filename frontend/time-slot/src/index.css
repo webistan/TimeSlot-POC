@@ -12,7 +12,6 @@ code {
     monospace;
 } */
 
-
 /* Global CSS Begin */
 h2,
 h3 {
@@ -60,8 +59,8 @@ button {
 }
 
 .button-dis {
-  border: 1px solid #c0b5bb;
-  background: #c0b5bb;
+  border: 1px solid #b6b6b6;
+  background: #b6b6b6;
   color: #fff;
   padding: 8px 15px;
   border-radius: 4px;
@@ -69,9 +68,19 @@ button {
   min-width: 123px;
 }
 
-.errorClass{
+button.add-btn {
+  position: relative;
+  left: 3px;
+  top: 0px;
+  width: 38px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+}
+
+.errorClass {
   margin-right: 2%;
-    color: red;
+  color: red;
 }
 .delete-btn {
   padding: 0 10px;
@@ -161,7 +170,7 @@ button {
   border: 1px solid #dadada;
   color: #ff4eb2;
   padding: 6px 10px;
-  margin-right: 4px;
+  margin-right: 7px;
   border-radius: 6px;
 }
 .btnhover {
@@ -177,11 +186,11 @@ button {
   border-color: #ff4eb2 !important;
 }
 
-.loader{
+.loader {
   position: fixed;
-    top: 45%;
-    left: 43%;
-    z-index: 9999;
+  top: 45%;
+  left: 43%;
+  z-index: 9999;
 }
 /* Global CSS End */
 
@@ -240,6 +249,8 @@ button {
 .wt-block {
   display: inline-block;
   margin-right: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 .input-group {
   box-shadow: 0px 1px 6px rgb(0 0 0 / 13%);
