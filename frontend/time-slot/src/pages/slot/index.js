@@ -1,1 +1,1 @@
-export { default as SlotList } from './List';
+export { default as SlotList } from './list';

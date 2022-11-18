@@ -1,6 +1,6 @@
 import './App.css';
 
-import { SlotList } from './pages/Slot'
+import { SlotList } from './pages/slot'
 
 function App() {
   return (
