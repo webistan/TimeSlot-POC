@@ -94,7 +94,7 @@ const SlotList = (props) => {
         <div className="wt-timeslots-list">
           <h3>Timeslot</h3>
 
-          <p>{error}</p>
+          
           {/* <SlotCard/> */}
 
           {slots &&
@@ -103,7 +103,9 @@ const SlotList = (props) => {
               <SlotCard key={idx} keys={value} />
             ))}
         </div>
+        
         <div style={{ textAlign: "right" }}>
+          <p className="errorClass">{error}</p>
           <button className="button2 btn-lg" onClick={() => saveSlots()}>
             Save Schedule
           </button>

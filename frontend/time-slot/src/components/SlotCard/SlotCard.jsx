@@ -301,16 +301,6 @@ function SlotCard(props) {
             ))}
         </div>
         {open === true ? viewPopUp(props.keys[0]) : null}
-
-        {/* <div className="wt-card-content">
-          <div className="wt-block">
-            <div className="input-group">
-              <input type="time" className="w-130"/>
-              <input type="text" className="w-90" defaultValue={10} />
-              <span className="delete-btn"><i className="fa-sharp fa-solid fa-trash" /></span>
-            </div>
-          </div>
-        </div> */}
       </div>
     </>
   );
