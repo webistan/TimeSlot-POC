@@ -1,10 +1,11 @@
 import React, { createContext, useState } from "react";
-import _, { isEmpty } from "lodash";
 import { addSlotInObject, deleteSlotData } from "../../redux/action/SlotAction";
 
 import AddSlotPopUp from "../PopUp/AddSlotPopUp";
+import _ from "lodash";
 import { connect } from "react-redux";
-import moment from "moment";
+
+//import moment from "moment";
 
 export const MyContext = createContext("");
 
@@ -121,7 +122,7 @@ function SlotCard(props) {
     copySlotObj &&
       Object.keys(copySlotObj).forEach(function (key) {
         copySlotObj[key].map((item, index) => {
-          if (idx == index) {
+          if (idx === index) {
             copySlotObj[key].splice(index, 1);
           }
           let jsonSlot = {
@@ -130,16 +131,16 @@ function SlotCard(props) {
           Object.assign(json, jsonSlot);
         });
       });
-    if (json[day] && json[day].length == 0) {
-      let emptyObj = {};
-      setSlotsObj((oldState) => ({
-        ...emptyObj,
-      }));
-    } else {
-      setSlotsObj((oldState) => ({
-        ...json,
-      }));
-    }
+      if (json[day] && json[day].length === 0) {
+        let emptyObj = {};
+        setSlotsObj((oldState) => ({
+          ...emptyObj,
+        }));
+      } else {
+        setSlotsObj((oldState) => ({
+          ...json,
+        }));
+      }
   };
 
   //***************************** Copy Slots method **********************************//
