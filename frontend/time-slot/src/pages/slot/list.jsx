@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   addWeeklySlot,
   getDateData,
@@ -9,6 +9,8 @@ import { FadeLoader } from "react-spinners";
 import SlotCard from "../../components/SlotCard/SlotCard";
 import { connect } from "react-redux";
 import moment from "moment";
+
+export const ListContext = createContext("");
 
 const SlotList = (props) => {
   const {
@@ -22,6 +24,8 @@ const SlotList = (props) => {
     addWeeklySlot,
   } = props;
   const[dateError,setDateError]=useState(false)
+
+  const[selectDay,setSelectDay] = useState("")
 
   let slots = slotList && slotList.slots;
   //***************************** UseEffect **********************************//
@@ -63,6 +67,9 @@ const SlotList = (props) => {
   const saveSlots = () => {
     addWeeklySlot(slotList);
   };
+  const onChangeSlectDay = (day) => {
+    setSelectDay(day)
+  }
 
   return (
     <>
@@ -79,7 +86,11 @@ const SlotList = (props) => {
           />
         </div>
       ) : null}
-      <div className="container">
+
+<ListContext.Provider
+              value={{ selectDay, onChangeSlectDay}}
+            >
+              <div className="container">
         <div className="wt-filter">
           <h2>Manage Schedule</h2>
           <div className="filter-block" data-testid="date-picker">
@@ -125,6 +136,8 @@ const SlotList = (props) => {
           </button>
         </div>
       </div>
+            </ListContext.Provider>
+      
     </>
   );
 };

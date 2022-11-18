@@ -25,7 +25,7 @@ exports[`SlotCard Component Should check card be exist in Component 1`] = `
       </button>
       <button
         className="button2"
-        disabled={false}
+        disabled={true}
         onClick={[Function]}
       >
         + Add Slot

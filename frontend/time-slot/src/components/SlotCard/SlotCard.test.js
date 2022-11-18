@@ -27,8 +27,8 @@ describe("SlotCard Component" ,  () => {
         expect(card).toBeInTheDocument(); 
 
         const SlotCardDomTree = renderer.create(<Provider store={createStore()}>
-        <SlotCard />
-      </Provider>).toJSON();
+          <SlotCard />
+        </Provider>).toJSON();
         expect(SlotCardDomTree).toMatchSnapshot();
     });
 

@@ -1,7 +1,9 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { addSlotInObject, deleteSlotData } from "../../redux/action/SlotAction";
 
+import $ from 'jquery'
 import AddSlotPopUp from "../PopUp/AddSlotPopUp";
+import { ListContext } from "../../pages/slot/list";
 import _ from "lodash";
 import { connect } from "react-redux";
 
@@ -59,10 +61,14 @@ function SlotCard(props) {
     },
   ]);
 
+
+  const { selectDay , onChangeSlectDay} = useContext(ListContext);
+
   //***************************** View Modal Function **********************************//
   const viewModal = async() => {
-    console.log('open popup')
-   
+    console.log('open popup:: ',open)
+    onChangeSlectDay(props.keys[0])
+  
     let emptyObj = {};
     setSlotsObj((oldState) => ({
       ...emptyObj,
@@ -77,34 +83,35 @@ function SlotCard(props) {
     setSlotCopyDay(copyArr);
 
     setOpen(true);
+    
   };
-
+  // console.log('slotCopyDay are:: ',slotCopyDay)
   //***************************** PopUp Function **********************************//
   const viewPopUp = (day) => {
     return (
       <>
         <MyContext.Provider
-          value={{
-            addSlotsObj,
-            day,
-            open,
-            onClose,
-            slotsObj,
-            slotList,
-            slotCopyDay,
-            copySolts,
-            removeSlotsObj,
-          }}
-        >
-          <AddSlotPopUp />
-        </MyContext.Provider>
+              value={{
+                addSlotsObj,
+                day,
+                open,
+                onClose,
+                slotsObj,
+                slotList,
+                slotCopyDay,
+                copySolts,
+                removeSlotsObj,
+              }}
+            >
+              <AddSlotPopUp />
+            </MyContext.Provider>
       </>
     );
   };
 
   //***************************** Add Slots in PopUp **********************************//
   const addSlotsObj = (data) => {
-    console.log("addslotdata", data);
+   // console.log("addslotdata", data);
     setSlotsObj((oldState) => ({
       ...data,
     }));
@@ -114,7 +121,7 @@ function SlotCard(props) {
   const removeSlotsObj = (data) => {
     let idx = data.index;
     let day = data.item.allocated_day;
-    console.log("day1", day, idx);
+    //console.log("day1", day, idx);
 
     let copySlotObj = JSON.parse(JSON.stringify(slotsObj));
 
@@ -190,6 +197,8 @@ function SlotCard(props) {
     console.log("dataa areee for popup close:: ", data);
     if (data && data.popUpClose && !data.addData) {
       setOpen(false);
+      onChangeSlectDay("")
+
       let copyArr1 = JSON.parse(JSON.stringify(slotCopyDay));
       copyArr1.forEach((item, idx) => {
            item["isSelected"] = false;
@@ -201,6 +210,7 @@ function SlotCard(props) {
 
     if (data && data.popUpClose && data.addData) {
       setOpen(false);
+      onChangeSlectDay("")
       setSlotsObj((oldState) => ({
         ...data.obj,
       }));
@@ -257,6 +267,9 @@ function SlotCard(props) {
     let end_date = slotList && slotList.end_date;
     deleteSlotData(start_time, allocated_day, start_date, end_date);
   };
+
+
+  
   return (
     <>
       <div className="wt-card" data-testid="wt-card">
@@ -265,10 +278,10 @@ function SlotCard(props) {
             <input type="checkbox" />
             {props.keys && props.keys[0]}
           </div>
-          <div className="card-head-right">
+          <div className="card-head-right" >
             <button className="button1">Copy Schedule</button>
             <button
-              disabled={open === true ? true : false}
+            disabled={selectDay === "" ? false : true}
               className="button2"
               onClick={(e) => {
                 viewModal();
