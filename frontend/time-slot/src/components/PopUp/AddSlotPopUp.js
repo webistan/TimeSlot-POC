@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 
 import { MyContext } from "../SlotCard/SlotCard";
 import _ from "lodash";
-import { addSlotInObject } from "../../redux/action/SlotAction";
-import { connect } from "react-redux";
 import moment from "moment";
 
 //***************************** AddSlotPopUp Method **********************************//
@@ -12,10 +10,8 @@ const AddSlotPopUp = (props) => {
   const {
     addSlotsObj,
     day,
-    open,
     onClose,
     slotsObj,
-    slotList,
     slotCopyDay,
     copySolts,
     removeSlotsObj,
@@ -147,6 +143,7 @@ const AddSlotPopUp = (props) => {
               !_.isEmpty(slotsObj) &&
               slotsObj[day].map((item, idx) => {
                 return (
+                  <>
                   <div className="tag" key={idx}>
                     {moment(item.start_time, "HH:mm:ss").format("hh:mm A")}/
                     <span>{item.allocated_slot}Slots</span>
@@ -157,6 +154,7 @@ const AddSlotPopUp = (props) => {
                       X
                     </div>
                   </div>
+                  </>
                 );
               })}
           </div>

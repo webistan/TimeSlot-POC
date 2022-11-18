@@ -121,7 +121,7 @@ function SlotCard(props) {
     let json = {};
     copySlotObj &&
       Object.keys(copySlotObj).forEach(function (key) {
-        copySlotObj[key].map((item, index) => {
+        copySlotObj[key].forEach((item, index) => {
           if (idx === index) {
             copySlotObj[key].splice(index, 1);
           }
@@ -167,7 +167,7 @@ function SlotCard(props) {
       });
 
       if (!_.isEmpty(obj)) {
-        Object.keys(obj).map((value) => {
+        Object.keys(obj).forEach((value) => {
           if (
             allUpdatedData["slots"][value] &&
             allUpdatedData["slots"][value].length > 0

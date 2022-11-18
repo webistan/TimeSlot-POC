@@ -1,3 +1,4 @@
+
 import {
   DELETE_SLOT_ERROR,
   DELETE_SLOT_REQUEST,
@@ -8,8 +9,6 @@ import {
   GET_DATEDATA_ERROR,
   GET_DATEDATA_REQUEST,
   GET_DATEDATA_SUCCESS,
-  GET_SAVEWEEKLYSLOT_REQUEST,
-  GET_SAVEWEEKLYSLOT_SUCCESS,
   SAVEWEEKLYSLOT_ERROR,
   SAVEWEEKLYSLOT_REQUEST,
   SAVEWEEKLYSLOT_SUCCESS,
@@ -17,7 +16,6 @@ import {
 import { call, put, takeLatest } from "redux-saga/effects";
 
 import _ from "lodash";
-import moment from "moment";
 
 //***************************** API URL **********************************//
 const apigeturl = process.env.REACT_APP_API_URL;
@@ -76,10 +74,11 @@ async function createFinalJson(newdata, start_date, end_date) {
       let array1 = [];
       slotData?.filter((SlotItem) => {
         if (SlotItem.allocated_day === weekItem) {
-          array1.push(SlotItem);
+         array1.push(SlotItem);
         }
+        return array1
       });
-      finalobj[weekItem] = array1;
+   return   finalobj[weekItem] = array1;
     });
     let obj = {
       slots: finalobj,
@@ -109,7 +108,7 @@ const postData = async (finalObject) => {
 
 //*****************************Saga Method For Saving TimeSlots **********************************//
 function* addWeeklySlots(values) {
-  const { data, addSlotArr } = values;
+  const { data } = values;
   let slot = data.slots;
   let { start_date, end_date } = data;
 
@@ -119,7 +118,7 @@ function* addWeeklySlots(values) {
     (value) => Object.keys(value[1]).length !== 0
   );
   let arr = [];
-  filterValue.map((item) => {
+  filterValue.forEach((item) => {
     arr.push(item[1].filter((value) => !value.id));
   });
   const newdata = arr.filter((val) => val.length !== 0);
@@ -159,6 +158,7 @@ const deleteData = async (start_time, allocated_day) => {
     }
   );
   const data = await response.json();
+  return data
 };
 
 //*****************************Saga Method For Delete TimeSlots **********************************//
@@ -178,7 +178,7 @@ function* deleteTimeSlot(values) {
   }
 }
 
-export default () => {
+const sagaExport= () => {
   function* watcher() {
     yield takeLatest(GET_ALLSLOT_REQUEST, getAllSlot);
     yield takeLatest(GET_DATEDATA_REQUEST, getDateDataList);
@@ -187,3 +187,4 @@ export default () => {
   }
   return { watcher };
 };
+export default sagaExport
