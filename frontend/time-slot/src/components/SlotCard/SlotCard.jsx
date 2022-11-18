@@ -6,7 +6,7 @@ import AddSlotPopUp from "../PopUp/AddSlotPopUp";
 import { connect } from "react-redux";
 import moment from "moment";
 
-export const MyContext = createContext();
+export const MyContext = createContext("");
 
 //***************************** SlotCard Method **********************************//
 function SlotCard(props) {
@@ -59,7 +59,9 @@ function SlotCard(props) {
   ]);
 
   //***************************** View Modal Function **********************************//
-  const viewModal = () => {
+  const viewModal = async() => {
+    console.log('open popup')
+   
     let emptyObj = {};
     setSlotsObj((oldState) => ({
       ...emptyObj,
@@ -187,6 +189,13 @@ function SlotCard(props) {
     console.log("dataa areee for popup close:: ", data);
     if (data && data.popUpClose && !data.addData) {
       setOpen(false);
+      let copyArr1 = JSON.parse(JSON.stringify(slotCopyDay));
+      copyArr1.forEach((item, idx) => {
+           item["isSelected"] = false;
+           item['copyDay'] = false
+      });
+      console.log('copyArr1 are:: ',copyArr1)
+      setSlotCopyDay(copyArr1);
     }
 
     if (data && data.popUpClose && data.addData) {

@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddSlotPopUp Component Should check Slot copy day div not exist in Component 1`] = `
+<div
+  className="modal"
+  data-testid="slot-popup"
+>
+  <div
+    className="wt-card"
+  >
+    <div
+      className="wt-card-head"
+    >
+      <div
+        className="card-head-left"
+      >
+        Timeslot
+      </div>
+      <div
+        className="card-head-right"
+      >
+        <button
+          className="close"
+          onClick={[Function]}
+        >
+          X
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        className="input-group"
+      >
+        <input
+          className="w-130"
+          defaultValue=""
+          onChange={[Function]}
+          type="time"
+        />
+        <input
+          className="w-90"
+          defaultValue=""
+          onChange={[Function]}
+          type="text"
+        />
+        <button
+          className="add-btn "
+          disabled={true}
+          onClick={[Function]}
+        >
+          <i
+            className="fa-sharp fa-solid fa-plus"
+            style={
+              Object {
+                "color": "#ff4eb2",
+              }
+            }
+          />
+        </button>
+      </div>
+      <div
+        className="tag-outer"
+      />
+      <div
+        className="bottom-block"
+      >
+        <h4>
+          Copy Schedule
+        </h4>
+        <div
+          className="days"
+        />
+      </div>
+      <button
+        className="modal-btn button-dis"
+        disabled={true}
+        onClick={[Function]}
+      >
+        + Add Slot
+      </button>
+    </div>
+  </div>
+</div>
+`;

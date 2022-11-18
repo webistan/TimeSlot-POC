@@ -8,7 +8,7 @@ import moment from "moment";
 
 //***************************** AddSlotPopUp Method **********************************//
 const AddSlotPopUp = (props) => {
-  const { addSlotInObject } = props;
+  //const { addSlotInObject } = props;
   const {
     addSlotsObj,
     day,
@@ -24,7 +24,7 @@ const AddSlotPopUp = (props) => {
   const [slotTime, setSlotTime] = useState("");
   const [slotNumber, setSlotNumber] = useState("");
 
-  console.log("slotList are::: ", slotsObj);
+  // console.log("slotList are::: ", slotsObj);
   // console.log('slotCopyDay are:: ',slotCopyDay)
 
   
@@ -99,33 +99,6 @@ const AddSlotPopUp = (props) => {
     removeSlotsObj(json);
   };
 
-  // const onHandleCopySlot = (copyDay) => {
-  //   console.log('copy day name are:: ',copyDay)
-  //   console.log('current day are:: ',day)
-  //   console.log('slotsObj dataaaa::: ',slotsObj[day])
-
-  //   //copySolts({copyDay:copyDay, currentDay:day })
-
-  //   let newJsonData = JSON.parse(JSON.stringify(slotList));
-  //   console.log("newJsonData", newJsonData);
-
-  //   let cloneCopyData = JSON.parse(JSON.stringify(slotsObj[day]));
-  //   if(cloneCopyData && cloneCopyData.length > 0){
-  //     console.log('cloneCopyData are:; ',cloneCopyData)
-  //     cloneCopyData.forEach((item) => {
-  //       delete item['id']
-  //       item['allocated_day'] = copyDay
-  //     })
-  //     console.log('cloneCopyData after are:; ',cloneCopyData)
-  //   }
-  //   newJsonData["slots"][copyDay]= cloneCopyData
-
-  //   console.log("newJsonData after", newJsonData);
-  //   // console.log("newJsonData123", newJsonData);
-  //   addSlotInObject(newJsonData)
-
-  // }
-
   //***************************** Copy Schedule Method **********************************//
   const setCopyDay = (copyDay) => {
     copySolts(copyDay);
@@ -187,14 +160,14 @@ const AddSlotPopUp = (props) => {
                 );
               })}
           </div>
-          <div className="bottom-block">
+          <div className="bottom-block" >
             <h4>Copy Schedule</h4>
             <div className="days">
               {slotCopyDay &&
                 slotCopyDay.map((item, idx) => {
                   return (
                     <>
-                      <span key={idx}>
+                      <span className="copy-day" data-testid="copy-day" key={idx}>
                         <button
                           className={
                             "btn1 " + (item.isSelected ? "btnhover " : "")
@@ -224,11 +197,13 @@ const AddSlotPopUp = (props) => {
   );
 }
 //***************************** MapStateToProps Method **********************************//
-const mapStateToProps = (state) => ({});
+// const mapStateToProps = (state) => ({});
 
-//***************************** MapDispatchToProps Method **********************************//
-const mapDispatchToProps = {
-  addSlotInObject,
-};
+// //***************************** MapDispatchToProps Method **********************************//
+// const mapDispatchToProps = {
+//   //addSlotInObject,
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddSlotPopUp);
+//export default connect(mapStateToProps, mapDispatchToProps)(AddSlotPopUp);
+
+export default AddSlotPopUp

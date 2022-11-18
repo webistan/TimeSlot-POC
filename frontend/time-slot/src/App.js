@@ -1,7 +1,6 @@
 import './App.css';
 
-import { SlotList } from './pages/slot'
-import logo from './logo.svg';
+import { SlotList } from './pages/Slot'
 
 function App() {
   return (

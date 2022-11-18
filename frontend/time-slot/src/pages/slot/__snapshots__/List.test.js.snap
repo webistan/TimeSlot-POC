@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SlotList Component Should show filled in inputs when values are provided 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="wt-filter"
+  >
+    <h2>
+      Manage Schedule
+    </h2>
+    <div
+      className="filter-block"
+      data-testid="date-picker"
+    >
+      <input
+        className="filter"
+        data-testid="startDate"
+        id="startDate"
+        name="startDate"
+        onChange={[Function]}
+        type="date"
+      />
+      <input
+        className="filter"
+        data-testid="endDate"
+        id="endDate"
+        name="endDate"
+        onChange={[Function]}
+        type="date"
+      />
+    </div>
+  </div>
+  <div
+    className="wt-timeslots-list"
+  >
+    <h3>
+      Timeslot
+    </h3>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+      }
+    }
+  >
+    <p
+      className="errorClass"
+    />
+    <button
+      className="button2 btn-lg"
+      onClick={[Function]}
+    >
+      Save Schedule
+    </button>
+  </div>
+</div>
+`;

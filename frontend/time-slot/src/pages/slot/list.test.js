@@ -4,7 +4,7 @@ import '@testing-library/jest-dom'
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import { Provider } from 'react-redux';
-import SlotList from "./list";
+import SlotList from "./List";
 import {createStore} from "../../redux/store/store";
 import renderer from 'react-test-renderer';
 import userEvent from '@testing-library/user-event';
@@ -44,6 +44,12 @@ describe("SlotList Component" , () => {
       userEvent.type(endDateInput, '2022-11-30');
       expect(startDateInput).toHaveValue('2022-11-18');
       expect(endDateInput).toHaveValue('2022-11-30');
+
+      const SlotListDomTree = renderer.create(<Provider store={createStore()}>
+        <SlotList />
+      </Provider>).toJSON();
+      expect(SlotListDomTree).toMatchSnapshot();
+
     });
 
 

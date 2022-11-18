@@ -16,19 +16,21 @@ afterEach(() => {
   
 describe("SlotCard Component" ,  () => {
 
-
-    const { getByTestId } = render(
-      <Provider store={createStore()}>
-        <SlotCard />
-      </Provider>
-    );
-  
-
-    const card = getByTestId("wt-card");
     
     test('Should check card be exist in Component', () => {
+        const { getByTestId } = render(
+          <Provider store={createStore()}>
+            <SlotCard />
+          </Provider>
+        );
+        const card = getByTestId("wt-card");
         expect(card).toBeInTheDocument(); 
-      });
+
+        const SlotCardDomTree = renderer.create(<Provider store={createStore()}>
+        <SlotCard />
+      </Provider>).toJSON();
+        expect(SlotCardDomTree).toMatchSnapshot();
+    });
 
 
 })

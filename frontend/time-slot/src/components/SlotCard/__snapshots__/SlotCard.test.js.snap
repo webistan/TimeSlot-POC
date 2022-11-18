@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SlotCard Component Should check card be exist in Component 1`] = `
+<div
+  className="wt-card"
+  data-testid="wt-card"
+>
+  <div
+    className="wt-card-head"
+  >
+    <div
+      className="card-head-left"
+    >
+      <input
+        type="checkbox"
+      />
+    </div>
+    <div
+      className="card-head-right"
+    >
+      <button
+        className="button1"
+      >
+        Copy Schedule
+      </button>
+      <button
+        className="button2"
+        disabled={false}
+        onClick={[Function]}
+      >
+        + Add Slot
+      </button>
+    </div>
+  </div>
+  <div
+    className="wt-card-content"
+  />
+</div>
+`;
