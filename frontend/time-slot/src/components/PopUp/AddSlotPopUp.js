@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 //***************************** AddSlotPopUp Method **********************************//
-function AddSlotPopUp(props) {
+const AddSlotPopUp = (props) => {
   const { addSlotInObject } = props;
   const {
     addSlotsObj,
@@ -134,7 +134,7 @@ function AddSlotPopUp(props) {
   // console.log('slotsObj are:: ',slotsObj)
 
   return (
-    <div className="modal">
+    <div className="modal" data-testid="slot-popup">
       <div className="wt-card">
         <div className="wt-card-head">
           <div className="card-head-left">Timeslot</div>

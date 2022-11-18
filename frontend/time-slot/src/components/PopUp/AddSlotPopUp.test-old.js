@@ -3,9 +3,9 @@ import '@testing-library/jest-dom'
 
 import { cleanup, render, screen } from "@testing-library/react";
 
+import AddSlotPopUp from "./AddSlotPopUp";
 import { Component } from 'react';
 import { Provider } from 'react-redux';
-import SlotCard from "./SlotCard";
 import {createStore} from "../../redux/store/store";
 import renderer from 'react-test-renderer';
 
@@ -14,20 +14,20 @@ afterEach(() => {
     cleanup(); // Resets the DOM after each test suite
 })
   
-describe("SlotCard Component" ,  () => {
+describe("AddSlotPopUp Component" ,  () => {
 
 
     const { getByTestId } = render(
       <Provider store={createStore()}>
-        <SlotCard />
+        <AddSlotPopUp />
       </Provider>
     );
   
 
-    const card = getByTestId("wt-card");
+    const SlotPopUp = getByTestId("slot-popup");
     
-    test('Should check card be exist in Component', () => {
-        expect(card).toBeInTheDocument(); 
+    test('Should check Slot Card Pop Up be exist in Component', () => {
+        expect(SlotPopUp).toBeInTheDocument(); 
       });
 
 
