@@ -46,11 +46,9 @@ class ScheduleController extends Controller
             if($isNotvalidations){
                 return response()->json(['status'=>400,'error'=>ERROR_400,'error_description'=>$isNotvalidations])->setStatusCode(400);
             }
-
             $startDate =  $requestData['start_date'];
-            $end_date =  $requestData['end_date'];
+            $endDate =  $requestData['end_date'];
         }
-
 
         $getScheduleData = $this->scheduleRepo->getSchedules($startDate,$endDate);
 
