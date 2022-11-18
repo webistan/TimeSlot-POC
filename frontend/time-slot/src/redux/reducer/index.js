@@ -1,9 +1,8 @@
-
-import { combineReducers } from 'redux'
-import slot from './slot.reducer'
+import { combineReducers } from "redux";
+import slot from "./slot.reducer";
 
 const rootReducer = combineReducers({
-  slotReducer:slot,
-})
+  slotReducer: slot,
+});
 
-export default rootReducer
+export default rootReducer;

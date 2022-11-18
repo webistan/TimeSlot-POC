@@ -1,13 +1,7 @@
-import './App.css';
-
-import { SlotList } from './pages/slot'
+import { SlotList } from "./pages/slot";
 
 function App() {
-  return (
-    
-    <SlotList />
-   
-  );
+  return <SlotList />;
 }
 
 export default App;

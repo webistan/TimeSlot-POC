@@ -1,4 +1,3 @@
-
 import {
   DELETE_SLOT_ERROR,
   DELETE_SLOT_REQUEST,
@@ -17,20 +16,17 @@ import { call, put, takeLatest } from "redux-saga/effects";
 
 import _ from "lodash";
 
-//***************************** API URL **********************************//
+// ****  API URL ****
 const apigeturl = process.env.REACT_APP_API_URL;
-// const apigeturl = "http://demo.webuters.com:8100/api";
 
-//*****************************Function For Get TimeSlots API **********************************//
+// ***************************** Function For Get TimeSlots API **********************************
 const getData = async (start_date, end_date) => {
-  const response = await fetch(
-    `${apigeturl}/schedules?start_date=${start_date}&end_date=${end_date}`
-  );
+  const response = await fetch(`${apigeturl}/schedules?start_date=${start_date}&end_date=${end_date}`);
   const data = await response.json();
   return data;
 };
 
-//*****************************Saga Method For GetAll TimeSlots **********************************//
+// ***************************** Saga Method For GetAll TimeSlots **********************************
 function* getAllSlot(values) {
   try {
     const { data } = values;
@@ -45,7 +41,7 @@ function* getAllSlot(values) {
     yield put({ type: GET_ALLSLOT_ERROR, err });
   }
 }
-//*****************************Saga Method For Filtered TimeSlots **********************************//
+// ***************************** Saga Method For Filtered TimeSlots **********************************
 function* getDateDataList(values) {
   try {
     const { start_date, end_date } = values;
@@ -64,7 +60,7 @@ function* getDateDataList(values) {
   }
 }
 
-//*****************************Function For FinalJSON  **********************************//
+// ***************************** Function For FinalJSON  **********************************
 async function createFinalJson(newdata, start_date, end_date) {
   try {
     let slotData = _.flatten(newdata);
@@ -74,11 +70,11 @@ async function createFinalJson(newdata, start_date, end_date) {
       let array1 = [];
       slotData?.filter((SlotItem) => {
         if (SlotItem.allocated_day === weekItem) {
-         array1.push(SlotItem);
+          array1.push(SlotItem);
         }
-        return array1
+        return array1;
       });
-   return   finalobj[weekItem] = array1;
+      return (finalobj[weekItem] = array1);
     });
     let obj = {
       slots: finalobj,
@@ -91,7 +87,7 @@ async function createFinalJson(newdata, start_date, end_date) {
   }
 }
 
-//*****************************Function For POST(ADD) TimeSlots API **********************************//
+// ***************************** Function For POST(ADD) TimeSlots API **********************************
 const postData = async (finalObject) => {
   try {
     const response = await fetch(`${apigeturl}/schedules`, {
@@ -106,7 +102,7 @@ const postData = async (finalObject) => {
   }
 };
 
-//*****************************Saga Method For Saving TimeSlots **********************************//
+// ***************************** Saga Method For Saving TimeSlots **********************************
 function* addWeeklySlots(values) {
   const { data } = values;
   let slot = data.slots;
@@ -114,9 +110,7 @@ function* addWeeklySlots(values) {
 
   let datafiltered = Object.entries(slot).filter((o) => o !== "");
 
-  const filterValue = datafiltered.filter(
-    (value) => Object.keys(value[1]).length !== 0
-  );
+  const filterValue = datafiltered.filter((value) => Object.keys(value[1]).length !== 0);
   let arr = [];
   filterValue.forEach((item) => {
     arr.push(item[1].filter((value) => !value.id));
@@ -128,12 +122,7 @@ function* addWeeklySlots(values) {
     yield put({ type: SAVEWEEKLYSLOT_ERROR, err, data });
   } else {
     try {
-      let finalObject = yield call(
-        createFinalJson,
-        newdata,
-        start_date,
-        end_date
-      );
+      let finalObject = yield call(createFinalJson, newdata, start_date, end_date);
       const saveData = yield call(postData, finalObject);
       yield put({ type: SAVEWEEKLYSLOT_SUCCESS, saveData });
       let data = {
@@ -149,19 +138,16 @@ function* addWeeklySlots(values) {
   }
 }
 
-//*****************************Function For Delete TimeSlots API **********************************//
+// ***************************** Function For Delete TimeSlots API **********************************
 const deleteData = async (start_time, allocated_day) => {
-  const response = await fetch(
-    `${apigeturl}/schedules/destroy?start_time=${start_time}&allocated_day=${allocated_day}`,
-    {
-      method: "DELETE",
-    }
-  );
+  const response = await fetch(`${apigeturl}/schedules/destroy?start_time=${start_time}&allocated_day=${allocated_day}`, {
+    method: "DELETE",
+  });
   const data = await response.json();
-  return data
+  return data;
 };
 
-//*****************************Saga Method For Delete TimeSlots **********************************//
+// ***************************** Saga Method For Delete TimeSlots **********************************
 function* deleteTimeSlot(values) {
   try {
     const { start_time, allocated_day, start_date, end_date } = values;
@@ -178,7 +164,7 @@ function* deleteTimeSlot(values) {
   }
 }
 
-const sagaExport= () => {
+const sagaExport = () => {
   function* watcher() {
     yield takeLatest(GET_ALLSLOT_REQUEST, getAllSlot);
     yield takeLatest(GET_DATEDATA_REQUEST, getDateDataList);
@@ -187,4 +173,4 @@ const sagaExport= () => {
   }
   return { watcher };
 };
-export default sagaExport
+export default sagaExport;

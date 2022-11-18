@@ -12,7 +12,7 @@ import {
   SAVEWEEKLYSLOT_SUCCESS,
 } from "../constant/SlotConstant";
 
-//*****************************Reducer Initial State **********************************//
+// *****************************Reducer Initial State **********************************
 const initialState = {
   error: "",
   loading: false,
@@ -21,7 +21,7 @@ const initialState = {
   start_date: "",
   end_date: "",
 };
-//*****************************Reducer Method **********************************//
+// *****************************Reducer Method **********************************
 const slot = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALLSLOT_REQUEST:

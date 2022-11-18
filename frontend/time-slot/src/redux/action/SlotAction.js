@@ -6,7 +6,7 @@ import {
   SAVEWEEKLYSLOT_REQUEST,
 } from "../constant/SlotConstant";
 
-//*****************************Action For GetAll TimeSlots **********************************//
+// *****************************Action For GetAll TimeSlots **********************************
 export const getSlotList = (data) => {
   return {
     type: GET_ALLSLOT_REQUEST,
@@ -14,7 +14,7 @@ export const getSlotList = (data) => {
   };
 };
 
-//*****************************Action For Filtered TimeSlots **********************************//
+// *****************************Action For Filtered TimeSlots **********************************
 export const getDateData = (start_date, end_date) => {
   return {
     type: GET_DATEDATA_REQUEST,
@@ -23,7 +23,7 @@ export const getDateData = (start_date, end_date) => {
   };
 };
 
-//*****************************Action For Save TimeSlots **********************************//
+// *****************************Action For Save TimeSlots **********************************
 export const addWeeklySlot = (data) => {
   return {
     type: SAVEWEEKLYSLOT_REQUEST,
@@ -31,7 +31,7 @@ export const addWeeklySlot = (data) => {
   };
 };
 
-//*****************************Action For Add TimeSlots In Card **********************************//
+// *****************************Action For Add TimeSlots In Card **********************************
 export const addSlotInObject = (data) => {
   return {
     type: ADDSLOT_REQUEST,
@@ -39,13 +39,8 @@ export const addSlotInObject = (data) => {
   };
 };
 
-//*****************************Action For Delete TimeSlots **********************************//
-export const deleteSlotData = (
-  start_time,
-  allocated_day,
-  start_date,
-  end_date
-) => {
+// *****************************Action For Delete TimeSlots **********************************
+export const deleteSlotData = (start_time, allocated_day, start_date, end_date) => {
   return {
     type: DELETE_SLOT_REQUEST,
     start_time,
