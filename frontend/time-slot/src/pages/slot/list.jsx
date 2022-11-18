@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import {
   addWeeklySlot,
   getDateData,
@@ -21,6 +21,7 @@ const SlotList = (props) => {
     getDateData,
     addWeeklySlot,
   } = props;
+  const[dateError,setDateError]=useState(false)
 
   let slots = slotList && slotList.slots;
   //***************************** UseEffect **********************************//
@@ -39,12 +40,22 @@ const SlotList = (props) => {
   const onChangeHandle = async (e) => {
     const name = e.target.name;
     const value = e.target.value;
-
     if (name === "startDate") {
+      if(value<=end_date){
       getDateData(value, end_date);
+      setDateError(false)
+      }else{
+        setDateError(true)
+      }
     }
     if (name === "endDate") {
+      if(value>=start_date){
       getDateData(start_date, value);
+      setDateError(false)
+      }
+      else{
+        setDateError(true)
+      }
     }
   };
 
@@ -55,6 +66,7 @@ const SlotList = (props) => {
 
   return (
     <>
+   
       {loading ? (
         <div className="loader">
           <FadeLoader
@@ -91,6 +103,8 @@ const SlotList = (props) => {
             />
           </div>
         </div>
+        {dateError?
+        <h4 style={{color:'red'}}>please select end date greater than start date!</h4>:null}
         <div className="wt-timeslots-list">
           <h3>Timeslot</h3>
 
